@@ -127,8 +127,6 @@ local myawesomemenu = {
 
 local mymenu = {
    { "&Doublecmd", "doublecmd", '/usr/share/pixmaps/doublecmd.png' },
-   { "火狐 (&F)", "firefox", '/usr/share/icons/hicolor/32x32/apps/firefox.png' },
-   { "g&Vim", "gvim", '/usr/share/pixmaps/gvim.png' },
    { "&MyEclipse", "myeclipseforspring" },
    { "&Sublime", "subl3", '/opt/sublime_text_3/Icon/16x16/sublime-text.png' },
    { "S&ynergy", "synergy", '/usr/share/pixmaps/synergy.png' },
@@ -136,10 +134,12 @@ local mymenu = {
 
 mymainmenu = awful.menu({ items = { { "Awesome (&W)", myawesomemenu, beautiful.awesome_icon },
           { "终端 (&T)", terminal },
+          { "g&Vim", "gvim", '/usr/share/pixmaps/gvim.png' },
+          { "火狐 (&F)", "firefox", '/usr/share/icons/hicolor/32x32/apps/firefox.png' },
           { "常用 (&U)", mymenu },
           { "应用程序 (&A)", xdgmenu },
-          --{ "挂起 (&S)", "mysuspend" },
-          --{ "关机 (&H)", "/usr/bin/systemctl poweroff", '/usr/share/icons/gnome/16x16/actions/gtk-quit.png' },
+          { "挂起 (&S)", "/usr/bin/systemctl suspend" },
+          { "关机 (&h)", "/usr/bin/systemctl poweroff" },
           }
 })
 
@@ -693,17 +693,16 @@ clientkeys = awful.util.table.join(
         function (c)
             if not awful.client.floating.get(c) then return end
             awful.placement.centered(c)
-        end),
-    awful.key({}, "F10", toggle_conky)
+        end)
 ) -- }}}
 
 -- {{{ Switching to the numbered tag
-for s = 1, screen.count() do
-    local keynumber = math.min(9, #tags[s]);
+do
+    local keynumber = math.min(9, #tags[1]);
     for i = 1, keynumber do
         keynumber_reg(i)
     end
-    if #tags[s] >= 10 then
+    if #tags[1] >= 10 then
         keynumber_reg(0, 10)
     end
 end
@@ -791,6 +790,10 @@ awful.rules.rules = {
       instance = {'TM.exe', 'QQ.exe'},
     },
     properties = {
+      -- This, together with myfocus_filter, make the popup menus flicker taskbars less
+      -- Non-focusable menus may cause TM2013preview1 to not highlight menu
+      -- items on hover and crash.
+      focusable = true,
       floating = true,
       border_width = 0,
     }
@@ -827,15 +830,6 @@ awful.rules.rules = {
         c.border_width = 0
       end
     end,
-  }, { 
-    rule = { class = "Conky" },
-    properties = {
-      floating = true,
-      sticky = true,
-      ontop = false,
-      focusable = false,
-      size_hints = {"program_position", "program_size"}
-    }
   }, {
     rule = {
       -- 白板的工具栏
@@ -954,49 +948,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 client.add_signal("unmanage", function(c)
     raise_on_click[c] = nil
 end)
--- }}}
-
--- {{{ Conky
-function get_conky()
-    local clients = client.get()
-    local conky = nil
-    local i = 1
-    while clients[i]
-    do
-        if clients[i].class == "Conky"
-        then
-            conky = clients[i]
-        end
-        i = i + 1
-    end
-    return conky
-end
-function raise_conky()
-    local conky = get_conky()
-    if conky
-    then
-        conky.ontop = true
-    end
-end
-function lower_conky()
-    local conky = get_conky()
-    if conky
-    then
-        conky.ontop = false
-    end
-end
-function toggle_conky()
-    local conky = get_conky()
-    if conky
-    then
-        if conky.ontop
-        then
-            conky.ontop = false
-        else
-            conky.ontop = true
-        end
-    end
-end
 -- }}}
 
 -- {{{ other things
