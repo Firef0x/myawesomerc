@@ -53,7 +53,7 @@ end
 beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xfce4-terminal"
+terminal = "urxvt"
 editor = "gvim"
 editor_cmd = editor
 
@@ -92,14 +92,14 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags_name = { "1", "2", "3", "4", "5文件", "6聊天", "7GVIM", "8", "9火狐", '0' }
+tags_name = { "1", "2", "3", "4", "5文件", "6", "7GVIM", "8", "9火狐", '0' }
 tags_layout = {
     awful.layout.suit.tile,
     awful.layout.suit.tile,
     awful.layout.suit.tile,
     awful.layout.suit.tile,
     awful.layout.suit.tile,
-    empathy,
+    awful.layout.suit.tile,
     awful.layout.suit.tile,
     awful.layout.suit.tile,
     awful.layout.suit.tile,
@@ -121,26 +121,25 @@ end
 -- Create a laucher widget and a main menu
 local myawesomemenu = {
    { "编辑配置 (&E)", editor_cmd .. " " .. awesome.conffile },
-   { "重新加载 (&R)", awesome.restart, '/usr/share/icons/gnome/16x16/actions/stock_refresh.png' },
+   { "重新加载 (&R)", awesome.restart },
    { "注销 (&L)", awesome.quit },
 }
 
 local mymenu = {
-   { "&Nautilus", "nautilus --no-desktop /home/lilydjwg/tmpfs", '/usr/share/icons/gnome/32x32/apps/system-file-manager.png' },
-   { "&Wireshark", "wireshark", '/usr/share/icons/hicolor/32x32/apps/wireshark.png'},
-   { "&VirtualBox", "VirtualBox", '/usr/share/icons/hicolor/32x32/mimetypes/virtualbox.png' },
-   { "文档查看器 (&E)", "evince", '/usr/share/icons/hicolor/16x16/apps/evince.png' },
-   { "屏幕键盘", "matchbox-keyboard", '/usr/share/pixmaps/matchbox-keyboard.png' },
+   { "&Doublecmd", "doublecmd", '/usr/share/pixmaps/doublecmd.png' },
+   { "火狐 (&F)", "firefox", '/usr/share/icons/hicolor/32x32/apps/firefox.png' },
+   { "g&Vim", "gvim", '/usr/share/pixmaps/gvim.png' },
+   { "&MyEclipse", "myeclipseforspring" },
+   { "&Sublime", "subl3", '/opt/sublime_text_3/Icon/16x16/sublime-text.png' },
+   { "S&ynergy", "synergy", '/usr/share/pixmaps/synergy.png' },
 }
 
-mymainmenu = awful.menu({ items = { { "Awesome", myawesomemenu, beautiful.awesome_icon },
-          { "终端 (&T)", terminal, '/usr/share/icons/gnome/32x32/apps/utilities-terminal.png' },
-          { "G&VIM", "gvim", '/usr/share/pixmaps/gvim.png' },
-          { "火狐 (&F)", "firefox", '/usr/share/icons/hicolor/32x32/apps/firefox.png' },
+mymainmenu = awful.menu({ items = { { "Awesome (&W)", myawesomemenu, beautiful.awesome_icon },
+          { "终端 (&T)", terminal },
           { "常用 (&U)", mymenu },
           { "应用程序 (&A)", xdgmenu },
-          { "挂起 (&S)", "mysuspend" },
-          { "关机 (&H)", "zenity --question --title '关机' --text '你确定关机吗？' --default-no && systemctl poweroff", '/usr/share/icons/gnome/16x16/actions/gtk-quit.png' },
+          --{ "挂起 (&S)", "mysuspend" },
+          --{ "关机 (&H)", "/usr/bin/systemctl poweroff", '/usr/share/icons/gnome/16x16/actions/gtk-quit.png' },
           }
 })
 
@@ -233,89 +232,85 @@ mem_clock:connect_signal("timeout", update_memwidget)
 mem_clock:start()
 -- }}}
 
---{{{ battery indicator, using smapi
-local battery_state = {
-    unknown     = '<span color="yellow">? ',
-    idle        = '<span color="#0000ff">↯',
-    charging    = '<span color="green">+ ',
-    discharging = '<span color="#1e90ff">– ',
-}
-function update_batwidget()
-    local bat_dir = '/sys/devices/platform/smapi/BAT0/'
-    local f = io.open(bat_dir .. 'state')
-    if not f then
-        batwidget:set_markup('<span color="red">ERR</span>')
-        return
-    end
+-- --{{{ battery indicator, using smapi
+-- local battery_state = {
+    -- unknown     = '<span color="yellow">? ',
+    -- idle        = '<span color="#0000ff">↯',
+    -- charging    = '<span color="green">+ ',
+    -- discharging = '<span color="#1e90ff">– ',
+-- }
+-- function update_batwidget()
+    -- local bat_dir = '/sys/devices/platform/smapi/BAT0/'
+    -- local f = io.open(bat_dir .. 'state')
+    -- if not f then
+        -- batwidget:set_markup('<span color="red">ERR</span>')
+        -- return
+    -- end
 
-    local state = f:read('*l')
-    f:close()
-    local state_text = battery_state[state] or battery_state.unknown
+    -- local state = f:read('*l')
+    -- f:close()
+    -- local state_text = battery_state[state] or battery_state.unknown
 
-    f = io.open(bat_dir .. 'remaining_percent')
-    if not f then
-        batwidget:set_markup('<span color="red">ERR</span>')
-        return
-    end
-    local percent = tonumber(f:read('*l'))
-    f:close()
-    if percent <= 35 then
-        if state == 'discharging' then
-            local t = os.time()
-            if t - last_bat_warning > 60 * 5 then
-                naughty.notify{
-                    preset = naughty.config.presets.critical,
-                    title = "电量警报",
-                    text = '电池电量只剩下 ' .. percent .. '% 了！',
-                }
-                last_bat_warning = t
-            end
-        end
-        percent = '<span color="red">' .. percent .. '</span>'
-    end
-    batwidget:set_markup(state_text .. percent .. '%</span>')
-end
-batwidget = fixwidthtextbox('↯??%')
-batwidget.width = 45
-update_batwidget()
-bat_clock = timer({ timeout = 5 })
-bat_clock:connect_signal("timeout", update_batwidget)
-bat_clock:start()
--- }}}
+    -- f = io.open(bat_dir .. 'remaining_percent')
+    -- if not f then
+        -- batwidget:set_markup('<span color="red">ERR</span>')
+        -- return
+    -- end
+    -- local percent = tonumber(f:read('*l'))
+    -- f:close()
+    -- if percent <= 35 then
+        -- if state == 'discharging' then
+            -- local t = os.time()
+            -- if t - last_bat_warning > 60 * 5 then
+                -- naughty.notify{
+                    -- preset = naughty.config.presets.critical,
+                    -- title = "电量警报",
+                    -- text = '电池电量只剩下 ' .. percent .. '% 了！',
+                -- }
+                -- last_bat_warning = t
+            -- end
+        -- end
+        -- percent = '<span color="red">' .. percent .. '</span>'
+    -- end
+    -- batwidget:set_markup(state_text .. percent .. '%</span>')
+-- end
+-- batwidget = fixwidthtextbox('↯??%')
+-- batwidget.width = 45
+-- update_batwidget()
+-- bat_clock = timer({ timeout = 5 })
+-- bat_clock:connect_signal("timeout", update_batwidget)
+-- bat_clock:start()
+-- -- }}}
 
 -- {{{ Volume Controller
 function volumectl (mode, widget)
     if mode == "update" then
-        local f = io.popen("pamixer --get-volume")
-        local volume = f:read("*all")
+        local f = io.popen("amixer sget Master")
+        local status = f:read("*all")
         f:close()
-        if not tonumber(volume) then
-            widget:set_markup("<span color='red'>ERR</span>")
-            do return end
-        end
-        volume = string.format("% 3d", volume)
 
-        f = io.popen("pamixer --get-mute")
-        local muted = f:read("*all")
-        f:close()
-        if muted == "false" then
+        -- local volume = tonumber(string.match(status, "(%d?%d?%d)%%")) / 100
+        local volume = tonumber(string.match(status, "(%d?%d?%d)%%"))
+
+        status = string.match(status, "%[(o[^%]]*)%]")
+        if string.find(status, "on", 1, true) then
             volume = '♫' .. volume .. "%"
         else
             volume = '♫' .. volume .. "<span color='red'>M</span>"
         end
         widget:set_markup(volume)
     elseif mode == "up" then
-        local f = io.popen("pamixer --allow-boost --increase 5")
+        local f = io.popen("amixer set Master 10%+")
         f:read("*all")
         f:close()
         volumectl("update", widget)
     elseif mode == "down" then
-        local f = io.popen("pamixer --allow-boost --decrease 5")
+        local f = io.popen("amixer set Master 10%-")
         f:read("*all")
         f:close()
         volumectl("update", widget)
     else
-        local f = io.popen("pamixer --toggle-mute")
+        local f = io.popen("amixer sset Master toggle")
         f:read("*all")
         f:close()
         volumectl("update", widget)
@@ -331,7 +326,7 @@ volumewidget:set_align('right')
 volumewidget:buttons(awful.util.table.join(
     awful.button({ }, 4, function () volumectl("up", volumewidget) end),
     awful.button({ }, 5, function () volumectl("down", volumewidget) end),
-    awful.button({ }, 3, function () awful.util.spawn("pavucontrol") end),
+    awful.button({ }, 3, function () awful.util.spawn("urxvt -e alsamixer") end),
     awful.button({ }, 1, function () volumectl("mute", volumewidget) end)
 ))
 volumectl("update", volumewidget)
@@ -418,7 +413,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     right_layout:add(memwidget)
-    right_layout:add(batwidget)
+    -- right_layout:add(batwidget)
     right_layout:add(netwidget)
     right_layout:add(volumewidget)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
@@ -540,7 +535,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Return",
         function ()
             -- Go and find a terminal for me
-            myutil.run_or_raise("xfce4-terminal --role=TempTerm --geometry=80x24+343+180", { role = "TempTerm" })
+            myutil.run_or_raise("urxvt --role=TempTerm --geometry=80x24+343+180", { role = "TempTerm" })
         end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Control" }, "q", awesome.quit),
@@ -622,7 +617,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "t", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "Return",
         function ()
-            awful.util.spawn("xfce4-terminal --role=TempTerm --geometry=80x24+343+180")
+            awful.util.spawn("urxvt --role=TempTerm --geometry=80x24+343+180")
         end),
 
     -- htop
@@ -631,7 +626,7 @@ globalkeys = awful.util.table.join(
             if client.focus and client.focus.role == 'FullScreenHtop' then
                 awful.client.movetotag(tags[mouse.screen][10], client.focus)
             else
-                myutil.run_or_raise("xfce4-terminal --role=FullScreenHtop -e 'htop'", { role = "FullScreenHtop" })
+                myutil.run_or_raise("urxvt --role=FullScreenHtop -e 'htop'", { role = "FullScreenHtop" })
             end
         end),
 
@@ -698,7 +693,8 @@ clientkeys = awful.util.table.join(
         function (c)
             if not awful.client.floating.get(c) then return end
             awful.placement.centered(c)
-        end)
+        end),
+    awful.key({}, "F10", toggle_conky)
 ) -- }}}
 
 -- {{{ Switching to the numbered tag
@@ -831,6 +827,15 @@ awful.rules.rules = {
         c.border_width = 0
       end
     end,
+  }, { 
+    rule = { class = "Conky" },
+    properties = {
+      floating = true,
+      sticky = true,
+      ontop = false,
+      focusable = false,
+      size_hints = {"program_position", "program_size"}
+    }
   }, {
     rule = {
       -- 白板的工具栏
@@ -951,8 +956,55 @@ client.add_signal("unmanage", function(c)
 end)
 -- }}}
 
+-- {{{ Conky
+function get_conky()
+    local clients = client.get()
+    local conky = nil
+    local i = 1
+    while clients[i]
+    do
+        if clients[i].class == "Conky"
+        then
+            conky = clients[i]
+        end
+        i = i + 1
+    end
+    return conky
+end
+function raise_conky()
+    local conky = get_conky()
+    if conky
+    then
+        conky.ontop = true
+    end
+end
+function lower_conky()
+    local conky = get_conky()
+    if conky
+    then
+        conky.ontop = false
+    end
+end
+function toggle_conky()
+    local conky = get_conky()
+    if conky
+    then
+        if conky.ontop
+        then
+            conky.ontop = false
+        else
+            conky.ontop = true
+        end
+    end
+end
+-- }}}
+
 -- {{{ other things
 awful.util.spawn("awesomeup", false)
 awful.tag.viewonly(tags[1][6])
+-- {{{ Autostart Network Manager Applet
+awful.util.spawn_with_shell("/usr/lib/polkit-1/polkit-agent-helper-1")
+awful.util.spawn_with_shell("/home/f/run_once nm-applet")
+-- }}}
 -- vim: set fdm=marker et sw=4:
 -- }}}
