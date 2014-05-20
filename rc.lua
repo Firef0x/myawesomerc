@@ -465,7 +465,7 @@ root.buttons(awful.util.table.join(
 -- }}}
 
 -- {{{ Key bindings
--- {{{ Functions for Numbers
+-- {{{ Functions
 local movebyrelidx = function (n, view) -- {{{
     -- view: 要转到那个 tag 吗？
     local screen = mouse.screen
@@ -523,6 +523,31 @@ local keynumber_reg = function (i, which) -- {{{
                 end
             end))
 end -- }}}
+
+-- {{{ bind_linux_keys
+linux_keys = awful.util.table.join(
+    -- it's easier for a vimer to manage this than figuring out a nice way to loop and concat
+    awful.key({'Mod1'}, 1, function(c) awful.util.spawn('xdotool key --window ' .. c.window .. ' ctrl+1') end),
+    awful.key({'Mod1'}, 2, function(c) awful.util.spawn('xdotool key --window ' .. c.window .. ' ctrl+2') end),
+    awful.key({'Mod1'}, 3, function(c) awful.util.spawn('xdotool key --window ' .. c.window .. ' ctrl+3') end),
+    awful.key({'Mod1'}, 4, function(c) awful.util.spawn('xdotool key --window ' .. c.window .. ' ctrl+4') end),
+    awful.key({'Mod1'}, 5, function(c) awful.util.spawn('xdotool key --window ' .. c.window .. ' ctrl+5') end),
+    awful.key({'Mod1'}, 6, function(c) awful.util.spawn('xdotool key --window ' .. c.window .. ' ctrl+6') end),
+    awful.key({'Mod1'}, 7, function(c) awful.util.spawn('xdotool key --window ' .. c.window .. ' ctrl+7') end),
+    awful.key({'Mod1'}, 8, function(c) awful.util.spawn('xdotool key --window ' .. c.window .. ' ctrl+8') end),
+    awful.key({'Mod1'}, 9, function(c) awful.util.spawn('xdotool key --window ' .. c.window .. ' ctrl+9') end),
+    awful.key({'Control'}, 'f',         function(c) awful.util.spawn('xdotool key --clearmodifiers --window ' .. c.window .. ' Right'     ) end),
+    awful.key({'Control'}, 'b',         function(c) awful.util.spawn('xdotool key --clearmodifiers --window ' .. c.window .. ' Left'      ) end),
+    awful.key({'Control'}, 'p',         function(c) awful.util.spawn('xdotool key --clearmodifiers --window ' .. c.window .. ' Up'        ) end),
+    awful.key({'Control'}, 'n',         function(c) awful.util.spawn('xdotool key --clearmodifiers --window ' .. c.window .. ' Down'      ) end),
+    awful.key({'Control'}, 'a',         function(c) awful.util.spawn('xdotool key --clearmodifiers --window ' .. c.window .. ' ctrl+Home' ) end),
+    awful.key({'Control'}, 'e',         function(c) awful.util.spawn('xdotool key --clearmodifiers --window ' .. c.window .. ' ctrl+End'  ) end),
+    awful.key({'Control'}, 'Page_Up',   function(c) awful.util.spawn('xdotool key --clearmodifiers --window ' .. c.window .. ' ctrl+Left' ) end),
+    awful.key({'Control'}, 'Page_Down', function(c) awful.util.spawn('xdotool key --clearmodifiers --window ' .. c.window .. ' ctrl+Right') end)
+)
+function bind_linux_keys(client)
+    client:keys(awful.util.table.join(client:keys(), linux_keys))
+end -- }}}
 -- }}}
 
 -- {{{ globalkeys
@@ -574,10 +599,18 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+    awful.key({ modkey, "Shift"   }, "s",
+        function ()
+            -- because they may be not focusable
+            local c = mouse.object_under_pointer()
+            if c then
+                c.sticky = not c.sticky
+            end
+        end),
 
     -- Prompt
     awful.key({ modkey            }, "r",     function () mypromptbox[mouse.screen]:run() end),
-    awful.key({ "Mod1"            }, "F2",     function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ "Mod1"            }, "F2",    function () mypromptbox[mouse.screen]:run() end),
 
     awful.key({ modkey, "Shift"   }, "x",
               function ()
@@ -704,6 +737,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "a",      function (c) c.above = not c.above            end),
+    awful.key({ modkey,           }, "s",      function (c) c.sticky = not c.sticky          end),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey, "Shift"   }, "m",
         function (c)
@@ -735,12 +769,15 @@ do
 end
 -- }}}
 
--- Whether to raise the client on single click
-raise_on_click = {}
-
 -- {{{ clientbuttons
 clientbuttons = awful.util.table.join(
-    awful.button({ }, 1, function (c) client.focus = c; if raise_on_click[c] then c:raise() end end),
+    awful.button({ }, 1, function (c)
+        client.focus = c
+        if c.class and (c.class == 'Gimp' or c.class == 'Gimp-2.8') then
+        else
+            c:raise()
+        end
+    end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 2, function (c) client.focus = c; c:kill() end),
     awful.button({ modkey }, 3, function (c) awful.mouse.client.resize(c, "bottom_right") end))
@@ -917,12 +954,6 @@ client.connect_signal("manage", function (c, startup)
         end
     end)
 
-    if c.class and (c.class == 'Gimp' or c.class == 'Gimp-2.8') then
-        raise_on_click[c] = false
-    else
-        raise_on_click[c] = true
-    end
-
     if not startup then
         -- Set the windows at the slave,
         -- i.e. put it at the end of others instead of setting it master.
@@ -937,7 +968,14 @@ client.connect_signal("manage", function (c, startup)
 
     if c.name and c.name:match('^FlashGot') then
         c.minimized = true
-        naughty.notify({title="FlashGot", text="OK"})
+        -- naughty.notify({title="FlashGot", text="OK"})
+    elseif c.instance == 'TM.exe' then -- TM2013
+        bind_linux_keys(c)
+        if c.name and c.name:match('^腾讯') and c.above then
+            qqad_blocked = qqad_blocked + 1
+            naughty.notify{title="QQ广告屏蔽 " .. qqad_blocked, text="检测到一个符合条件的窗口，标题为".. c.name .."。"}
+            c:kill()
+        end
     elseif c.instance == 'QQ.exe' then
         local handled
         -- naughty.notify({title="新窗口", text="名称为 ".. c.name .."，class 为 " .. c.class:gsub('&', '&amp;') .. " 的窗口已接受管理。", preset=naughty.config.presets.critical})
@@ -963,10 +1001,6 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
-client.add_signal("unmanage", function(c)
-    raise_on_click[c] = nil
-end)
 -- }}}
 
 -- {{{ other things
