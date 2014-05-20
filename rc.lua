@@ -13,10 +13,12 @@ local menubar = require("menubar")
 -- for fcitx-chttrans
 table.insert(naughty.config.icon_dirs, '/usr/share/icons/hicolor/48x48/status/')
 
-local empathy = require("empathy")
 local myutil = require("myutil")
 local fixwidthtextbox = require("fixwidthtextbox")
 local menu = require("menu")
+
+-- Vicious Widgets
+vicious = require("vicious")
 
 os.setlocale("")
 -- A debugging func
@@ -53,9 +55,11 @@ end
 beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
-editor = "gvim"
+terminal = "urxvtc"
+editor = "gvim" or os.getenv("EDITOR") or "nano"
 editor_cmd = editor
+browser = firefox
+file_manager = doublecmd
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -92,7 +96,7 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags_name = { "1", "2", "3", "4", "5文件", "6", "7GVIM", "8", "9火狐", '0' }
+tags_name = { "1火狐", "2BC", "3文档", "4FTP", "5文件", "6终端", "7代码", "8", "9", "0" }
 tags_layout = {
     awful.layout.suit.tile,
     awful.layout.suit.tile,
@@ -120,26 +124,34 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 local myawesomemenu = {
+   { "版本 " .. awesome.version , " " },
    { "编辑配置 (&E)", editor_cmd .. " " .. awesome.conffile },
    { "重新加载 (&R)", awesome.restart },
    { "注销 (&L)", awesome.quit },
+   { "挂起 (&S)", "systemctl suspend" },
+   { "重启 (&B)", "systemctl reboot" },
+   { "关机 (&H)", "systemctl poweroff" },
 }
 
 local mymenu = {
-   { "&Doublecmd", "doublecmd", '/usr/share/pixmaps/doublecmd.png' },
-   { "&MyEclipse", "myeclipseforspring" },
-   { "&Sublime", "subl3", '/opt/sublime_text_3/Icon/16x16/sublime-text.png' },
-   { "S&ynergy", "synergy", '/usr/share/pixmaps/synergy.png' },
+    { "BCompare (&B)", "bcompare", "/usr/share/pixmaps/bcompare.png" },
+    { "Chrome (&C)", "/opt/google/chrome/google-chrome", "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" },
+    { "DoubleCmd (&D)", "doublecmd", '/usr/share/pixmaps/doublecmd.png' },
+    { "FileZilla (&F)", "filezilla", '/usr/share/pixmaps/filezilla.png' --[[/usr/share/applications/filezilla.desktop]]},
+    { "Chr隐私 (&H)", "/opt/google/chrome/google-chrome --incognito", "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" },
+    { "MyEclipse (&M)", "myeclipseforspring", "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" },
+    { "Sublime (&S)", "subl3", '/opt/sublime_text_3/Icon/16x16/sublime-text.png' },
+    { "为知笔记 (&W)", "wiznote", "/usr/share/icons/hicolor/16x16/apps/wiznote.png" },
+    { "Synergy (&Y)", "synergy", '/usr/share/pixmaps/synergy.png' },
 }
 
-mymainmenu = awful.menu({ items = { { "Awesome (&W)", myawesomemenu, beautiful.awesome_icon },
-          { "终端 (&T)", terminal },
-          { "g&Vim", "gvim", '/usr/share/pixmaps/gvim.png' },
-          { "火狐 (&F)", "firefox", '/usr/share/icons/hicolor/32x32/apps/firefox.png' },
+mymainmenu = awful.menu({ items = {
+          { "Awesome (&W)", myawesomemenu, beautiful.awesome_icon },
+          { "终端 (&T)", terminal ,'/usr/share/icons/Faenza/apps/16/Terminal.png'},
+          { "gVim (&V)", "gvim", '/usr/share/pixmaps/gvim.png' },
+          { "火狐 (&F)", "firefox", '/usr/share/icons/hicolor/16x16/apps/firefox.png' },
           { "常用 (&U)", mymenu },
-          { "应用程序 (&A)", xdgmenu },
-          { "挂起 (&S)", "/usr/bin/systemctl suspend" },
-          { "关机 (&h)", "/usr/bin/systemctl poweroff" },
+          { "应用 (&A)", xdgmenu(terminal) },
           }
 })
 
@@ -200,7 +212,7 @@ function update_netstat()
 end
 netdata = {}
 netwidget = fixwidthtextbox('(net)')
-netwidget.width = 85
+netwidget.width = 100
 netwidget:set_align('center')
 netwidget_clock = timer({ timeout = 2 })
 netwidget_clock:connect_signal("timeout", update_netstat)
@@ -209,27 +221,27 @@ update_netstat()
 -- }}}
 
 -- {{{ memory usage indicator
-function update_memwidget()
-    local f = io.open('/proc/meminfo')
-    local total = f:read('*l')
-    local free = f:read('*l')
-    local buffered = f:read('*l')
-    local cached = f:read('*l')
-    f:close()
-    total = total:match('%d+')
-    free = free:match('%d+')
-    buffered = buffered:match('%d+')
-    cached = cached:match('%d+')
-    free = free + buffered + cached
-    local percent = 100 - math.floor(free / total * 100 + 0.5)
-    memwidget:set_markup('Mem <span color="#90ee90">'.. percent ..'%</span>')
-end
-memwidget = fixwidthtextbox('Mem ??')
-memwidget.width = 55
-update_memwidget()
-mem_clock = timer({ timeout = 5 })
-mem_clock:connect_signal("timeout", update_memwidget)
-mem_clock:start()
+-- function update_memwidget()
+--     local f = io.open('/proc/meminfo')
+--     local total = f:read('*l')
+--     local free = f:read('*l')
+--     local buffered = f:read('*l')
+--     local cached = f:read('*l')
+--     f:close()
+--     total = total:match('%d+')
+--     free = free:match('%d+')
+--     buffered = buffered:match('%d+')
+--     cached = cached:match('%d+')
+--     free = free + buffered + cached
+--     local percent = 100 - math.floor(free / total * 100 + 0.5)
+--     memwidget:set_markup('Mem <span color="#90ee90">'.. percent ..'%</span>')
+-- end
+-- memwidget = fixwidthtextbox('Mem ??')
+-- memwidget.width = 55
+-- update_memwidget()
+-- mem_clock = timer({ timeout = 5 })
+-- mem_clock:connect_signal("timeout", update_memwidget)
+-- mem_clock:start()
 -- }}}
 
 -- --{{{ battery indicator, using smapi
@@ -282,10 +294,18 @@ mem_clock:start()
 -- bat_clock:start()
 -- -- }}}
 
+local batwidget = wibox.widget.textbox()
+vicious.register(batwidget,
+    vicious.widgets.bat,
+    function (widget, args)
+        return '<span color="red">↯' .. args[2] .. '%</span>'
+    end,
+61, "BAT0")
+
 -- {{{ Volume Controller
 function volumectl (mode, widget)
     if mode == "update" then
-        local f = io.popen("amixer sget Master")
+        local f = io.popen("amixer -c 0 sget Master playback")
         local status = f:read("*all")
         f:close()
 
@@ -294,23 +314,29 @@ function volumectl (mode, widget)
 
         status = string.match(status, "%[(o[^%]]*)%]")
         if string.find(status, "on", 1, true) then
-            volume = '♫' .. volume .. "%"
+            if volume >= 60 then
+                volume = '♫' .. volume .. "%"
+            elseif volume >= 30 then
+                volume = '♪' .. volume .. "%"
+            else
+                volume = '♩' .. volume .. "%"
+            end
         else
             volume = '♫' .. volume .. "<span color='red'>M</span>"
         end
         widget:set_markup(volume)
     elseif mode == "up" then
-        local f = io.popen("amixer set Master 10%+")
+        local f = io.popen("amixer -c 0 sset Master playback 10%+")
         f:read("*all")
         f:close()
         volumectl("update", widget)
     elseif mode == "down" then
-        local f = io.popen("amixer set Master 10%-")
+        local f = io.popen("amixer -c 0 sset Master playback 10%-")
         f:read("*all")
         f:close()
         volumectl("update", widget)
     else
-        local f = io.popen("amixer sset Master toggle")
+        local f = io.popen("amixer -c 0 sset Master playback toggle")
         f:read("*all")
         f:close()
         volumectl("update", widget)
@@ -321,12 +347,12 @@ volume_clock:connect_signal("timeout", function () volumectl("update", volumewid
 volume_clock:start()
 
 volumewidget = fixwidthtextbox('(volume)')
-volumewidget.width = 48
+volumewidget.width = 55
 volumewidget:set_align('right')
 volumewidget:buttons(awful.util.table.join(
     awful.button({ }, 4, function () volumectl("up", volumewidget) end),
     awful.button({ }, 5, function () volumectl("down", volumewidget) end),
-    awful.button({ }, 3, function () awful.util.spawn("urxvt -e alsamixer") end),
+    awful.button({ }, 3, function () awful.util.spawn("urxvtc -e alsamixer") end),
     awful.button({ }, 1, function () volumectl("mute", volumewidget) end)
 ))
 volumectl("update", volumewidget)
@@ -402,7 +428,7 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 18 })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 20 })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
@@ -412,8 +438,8 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(memwidget)
-    -- right_layout:add(batwidget)
+    -- right_layout:add(memwidget)
+    right_layout:add(batwidget)
     right_layout:add(netwidget)
     right_layout:add(volumewidget)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
@@ -535,7 +561,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Return",
         function ()
             -- Go and find a terminal for me
-            myutil.run_or_raise("urxvt --role=TempTerm --geometry=80x24+343+180", { role = "TempTerm" })
+            myutil.run_or_raise("urxvtc --role=TempTerm", { role = "TempTerm" })
         end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Control" }, "q", awesome.quit),
@@ -576,12 +602,12 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Screenshot
-    awful.key({                   }, "Print",
-        function ()
-            awful.util.spawn("zsh -c 'cd ~/tmpfs\nscrot\n'")
-            os.execute("sleep .5")
-            naughty.notify({title="截图", text="全屏截图已保存。"})
-        end),
+    -- awful.key({                   }, "Print",
+    --     function ()
+    --         awful.util.spawn("zsh -c 'cd ~/tmpfs\nscrot\n'")
+    --         os.execute("sleep .5")
+    --         naughty.notify({title="截图", text="全屏截图已保存。"})
+    --     end),
 
     -- Alt-Tab
     awful.key({ "Mod1",          }, "Tab",
@@ -611,13 +637,14 @@ globalkeys = awful.util.table.join(
 
     -- My programs
     awful.key({ modkey,           }, "g", function () awful.util.spawn("gvim") end),
+    awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("subl3") end),
     awful.key({ "Control", "Mod1", "Shift" }, "x", function () awful.util.spawn("xkill") end),
     awful.key({ "Control", "Mod1" }, "l", function () awful.util.spawn("leave") end),
-    awful.key({ modkey,           }, "x", function () awful.util.spawn("openmsg.py", false) end),
+    -- awful.key({ modkey,           }, "x", function () awful.util.spawn("openmsg.py", false) end),
     awful.key({ modkey,           }, "t", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "Return",
         function ()
-            awful.util.spawn("urxvt --role=TempTerm --geometry=80x24+343+180")
+            awful.util.spawn("urxvtc --role=TempTerm --geometry=80x24+343+180")
         end),
 
     -- htop
@@ -626,7 +653,7 @@ globalkeys = awful.util.table.join(
             if client.focus and client.focus.role == 'FullScreenHtop' then
                 awful.client.movetotag(tags[mouse.screen][10], client.focus)
             else
-                myutil.run_or_raise("urxvt --role=FullScreenHtop -e 'htop'", { role = "FullScreenHtop" })
+                myutil.run_or_raise("urxvtc --role=FullScreenHtop -e 'htop'", { role = "FullScreenHtop" })
             end
         end),
 
@@ -641,27 +668,27 @@ globalkeys = awful.util.table.join(
         end),
 
     -- sdcv
-    awful.key({ modkey            }, "d",
-        function ()
-            local new_word = selection()
+    -- awful.key({ modkey            }, "d",
+    --     function ()
+    --         local new_word = selection()
 
-            if _dict_notify ~= nil then
-                naughty.destroy(_dict_notify)
-                _dict_notify = nil
-                if _old_word == new_word then
-                    return
-                end
-            end
-            _old_word = new_word
+    --         if _dict_notify ~= nil then
+    --             naughty.destroy(_dict_notify)
+    --             _dict_notify = nil
+    --             if _old_word == new_word then
+    --                 return
+    --             end
+    --         end
+    --         _old_word = new_word
 
-            local fc = ""
-            local f  = io.popen("sdcv -n --utf8-output -u 'stardict1.3英汉辞典' '"..new_word.."'")
-            for line in f:lines() do
-                fc = fc .. line .. '\n'
-            end
-            f:close()
-            _dict_notify = naughty.notify({ text = fc, timeout = 5, width = 320 })
-        end),
+    --         local fc = ""
+    --         local f  = io.popen("sdcv -n --utf8-output -u 'stardict1.3英汉辞典' '"..new_word.."'")
+    --         for line in f:lines() do
+    --             fc = fc .. line .. '\n'
+    --         end
+    --         f:close()
+    --         _dict_notify = naughty.notify({ text = fc, timeout = 5, width = 320 })
+    --     end),
 
     -- Volume
     awful.key({ }, 'XF86AudioRaiseVolume', function () volumectl("up", volumewidget) end),
@@ -766,13 +793,10 @@ awful.rules.rules = {
       maximized_vertical = true,
     }
   }, {
-    rule = { class = "Empathy" },
-    properties = { tag = tags[1][6] },
-  }, {
     rule = { class = "Firefox", instance = "firefox" },
     properties = { floating = true }
   }, {
-    -- popup from FireGuesture with mouse wheel
+    -- popup from Fireyellow with mouse wheel
     rule = {
       class = "Firefox",
       skip_taskbar = true,
@@ -784,6 +808,9 @@ awful.rules.rules = {
     }
   }, {
     rule = { class = "Wireshark", name = "Wireshark" }, -- wireshark startup window
+    properties = { floating = true }
+  }, {
+    rule = { class = "Bcompare", role = "BcDialog" }, -- Beyond Compare
     properties = { floating = true }
   }, {
     rule_any = { 
@@ -830,22 +857,22 @@ awful.rules.rules = {
         c.border_width = 0
       end
     end,
-  }, {
-    rule = {
-      -- 白板的工具栏
-      name = 'frmPresentationTool',
-      instance = 'picpick.exe',
-    },
-    properties = {
-      ontop = true,
-    }
+  -- }, {
+  --   rule = {
+  --     -- 白板的工具栏
+  --     name = 'frmPresentationTool',
+  --     instance = 'picpick.exe',
+  --   },
+  --   properties = {
+  --     ontop = true,
+  --   }
   }, {
     rule_any = {
       class = {
         'MPlayer', 'Flashplayer', 'Gnome-mplayer', 'Totem',
         'Eog', 'feh', 'Display', 'Gimp', 'Gimp-2.6',
         'Screenkey', 'TempTerm', 'AliWangWang',
-        'Dia', 'Pavucontrol', 'Stardict', 'XEyes', 'Skype',
+        'Dia', 'Pavucontrol', 'goldendict', 'XEyes', 'Skype',
       },
       name = {
         '文件传输', 'Firefox 首选项', '暂存器', 'Keyboard',
@@ -910,15 +937,7 @@ client.connect_signal("manage", function (c, startup)
 
     if c.name and c.name:match('^FlashGot') then
         c.minimized = true
-        -- naughty.notify({title="FlashGot", text="OK"})
-    elseif c.instance == 'empathy-chat' or (c.role == 'conversation' and c.class == 'Pidgin') then
-        local t
-        t = c:tags()
-        if #t == 1 and t[1] == tags[mouse.screen][6] then
-            awful.util.spawn_with_shell('sleep 0.1 && fcitx-remote -T', false)
-        else
-            awful.client.movetotag(tags[mouse.screen][6], c)
-        end
+        naughty.notify({title="FlashGot", text="OK"})
     elseif c.instance == 'QQ.exe' then
         local handled
         -- naughty.notify({title="新窗口", text="名称为 ".. c.name .."，class 为 " .. c.class:gsub('&', '&amp;') .. " 的窗口已接受管理。", preset=naughty.config.presets.critical})
@@ -952,10 +971,21 @@ end)
 
 -- {{{ other things
 awful.util.spawn("awesomeup", false)
+-- {{{ Run a program only if it is no already running
+function run_once(prg)
+    awful.util.spawn_with_shell("pgrep -u $USER -x " .. prg .. " || (" .. prg .. ")")
+end
+-- }}}
 awful.tag.viewonly(tags[1][6])
 -- {{{ Autostart Network Manager Applet
 awful.util.spawn_with_shell("/usr/lib/polkit-1/polkit-agent-helper-1")
-awful.util.spawn_with_shell("/home/f/run_once nm-applet")
+run_once("nm-applet")
+-- {{{ Autostart Input Method
+run_once("fcitx")
+-- {{{ Autostart Clipboard Manager
+run_once("clipit")
+-- {{{ Autostart Urxvt Daemon
+run_once("urxvtd")
 -- }}}
 -- vim: set fdm=marker et sw=4:
 -- }}}

@@ -7,7 +7,7 @@ local confdir = awful.util.getdir("config")
 
 theme = {}
 
-theme.font          = "文泉驿正黑 8"
+theme.font          = "文泉驿正黑 Regular 11"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
@@ -44,7 +44,7 @@ theme.taglist_squares_unsel = confdir .. "/image/squarew.png"
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = "/usr/share/awesome/themes/default/submenu.png"
 theme.menu_height = 15
-theme.menu_width  = 100
+theme.menu_width  = 120
 
 -- You can add as many variables as
 -- you wish and access them by using
