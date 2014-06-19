@@ -56,7 +56,7 @@ beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
-editor = "gvim" or os.getenv("EDITOR") or "nano"
+editor = "gvim"
 editor_cmd = editor
 browser = firefox
 file_manager = doublecmd
@@ -84,6 +84,17 @@ local layouts =
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,
 }
+-- }}}
+
+-- {{{ Functions
+function get_memory_usage()
+    local ret = {}
+    for l in io.lines('/proc/meminfo') do
+        local k, v = l:match("([^:]+):%s+(%d+)")
+        ret[k] = tonumber(v)
+    end
+    return ret
+end
 -- }}}
 
 -- {{{ Wallpaper
@@ -125,12 +136,12 @@ end
 -- Create a laucher widget and a main menu
 local myawesomemenu = {
    { "版本 " .. awesome.version , " " },
-   { "编辑配置 (&E)", editor_cmd .. " " .. awesome.conffile },
-   { "重新加载 (&R)", awesome.restart },
+   { "编辑配置 (&E)", editor_cmd .. " " .. awesome.conffile , '/usr/share/icons/gnome/16x16/actions/gtk-select-all.png' },
+   { "重新加载 (&R)", awesome.restart, '/usr/share/icons/gnome/16x16/actions/stock_refresh.png' },
    { "注销 (&L)", awesome.quit },
    { "挂起 (&S)", "systemctl suspend" },
    { "重启 (&B)", "systemctl reboot" },
-   { "关机 (&H)", "systemctl poweroff" },
+   { "关机 (&H)", "systemctl poweroff", '/usr/share/icons/gnome/16x16/actions/gtk-quit.png' },
 }
 
 local mymenu = {
@@ -223,21 +234,19 @@ update_netstat()
 -- }}}
 
 -- {{{ memory usage indicator
--- function update_memwidget()
---     local f = io.open('/proc/meminfo')
---     local total = f:read('*l')
---     local free = f:read('*l')
---     local buffered = f:read('*l')
---     local cached = f:read('*l')
---     f:close()
---     total = total:match('%d+')
---     free = free:match('%d+')
---     buffered = buffered:match('%d+')
---     cached = cached:match('%d+')
---     free = free + buffered + cached
---     local percent = 100 - math.floor(free / total * 100 + 0.5)
---     memwidget:set_markup('Mem <span color="#90ee90">'.. percent ..'%</span>')
--- end
+function update_memwidget()
+    local meminfo = get_memory_usage()
+    local free
+    if meminfo.MemAvailable then
+        -- Linux 3.14+
+        free = meminfo.MemAvailable
+    else
+        free = meminfo.MemFree + meminfo.Buffers + meminfo.Cached
+    end
+    local total = meminfo.MemTotal
+    local percent = 100 - math.floor(free / total * 100 + 0.5)
+    memwidget:set_markup('Mem <span color="#90ee90">'.. percent ..'%</span>')
+end
 -- memwidget = fixwidthtextbox('Mem ??')
 -- memwidget.width = 55
 -- update_memwidget()
@@ -440,6 +449,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    -- 因为屏幕不大，暂时弃用 lilydjwg 的内存小部件
     -- right_layout:add(memwidget)
     right_layout:add(batwidget)
     right_layout:add(netwidget)
@@ -675,7 +685,6 @@ globalkeys = awful.util.table.join(
     -- awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("subl3") end),
     awful.key({ "Control", "Mod1", "Shift" }, "x", function () awful.util.spawn("xkill") end),
     awful.key({ "Control", "Mod1" }, "l", function () awful.util.spawn("leave") end),
-    -- awful.key({ modkey,           }, "x", function () awful.util.spawn("openmsg.py", false) end),
     awful.key({ modkey,           }, "t", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "Return",
         function ()
@@ -835,7 +844,7 @@ awful.rules.rules = {
     rule = { class = "Firefox", instance = "firefox" },
     properties = { floating = true }
   }, {
-    -- popup from Fireyellow with mouse wheel
+    -- popup from FireGesture with mouse wheel
     rule = {
       class = "Firefox",
       skip_taskbar = true,
@@ -908,11 +917,14 @@ awful.rules.rules = {
   }, {
     rule_any = {
       class = {
+        -- Added by lilydjwg
         'MPlayer', 'Flashplayer', 'Gnome-mplayer', 'Totem',
         'Eog', 'feh', 'Display', 'Gimp', 'Gimp-2.6',
         'Screenkey', 'TempTerm', 'AliWangWang',
-        'Dia', 'Pavucontrol', 'goldendict', 'XEyes', 'Skype',
-        'Doublecmd',
+        'Dia', 'Pavucontrol', 'Stardict', 'XEyes', 'Skype',
+        'Xfce4-appfinder',
+        -- Added by me
+        'Doublecmd', 'goldendict', 'smplayer',
       },
       name = {
         '文件传输', 'Firefox 首选项', '暂存器', 'Keyboard',
@@ -1008,12 +1020,14 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- {{{ other things
 awful.util.spawn("awesomeup", false)
+awful.tag.viewonly(tags[1][6])
+
+-- Autostart tricks from Awesome Wiki
 -- {{{ Run a program only if it is no already running
 function run_once(prg)
     awful.util.spawn_with_shell("pgrep -u $USER -x " .. prg .. " || (" .. prg .. ")")
 end
 -- }}}
-awful.tag.viewonly(tags[1][6])
 -- {{{ Autostart Network Manager Applet
 awful.util.spawn_with_shell("/usr/lib/polkit-1/polkit-agent-helper-1")
 run_once("nm-applet")
