@@ -96,7 +96,7 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags_name = { "1火狐", "2BC", "3文档", "4FTP", "5文件", "6终端", "7代码", "8", "9", "0" }
+tags_name = { "1火狐", "2BC", "3文档", "4FTP", "5文件", "6终端", "7代码", "8Git", "9", "0" }
 tags_layout = {
     awful.layout.suit.tile,
     awful.layout.suit.tile,
@@ -138,10 +138,12 @@ local mymenu = {
     { "Chrome (&C)", "/opt/google/chrome/google-chrome", "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" },
     { "DoubleCmd (&D)", "doublecmd", '/usr/share/pixmaps/doublecmd.png' },
     { "FileZilla (&F)", "filezilla", '/usr/share/pixmaps/filezilla.png' --[[/usr/share/applications/filezilla.desktop]]},
+    { "Git Cola (&G)", 'git-cola --prompt', '/usr/share/git-cola/icons/git.svg' --[[/usr/share/applications/git-cola.desktop]]},
     { "Chr隐私 (&H)", "/opt/google/chrome/google-chrome --incognito", "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" },
+    { "Leafpad (&L)", "leafpad", "/usr/share/pixmaps/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]},
     { "MyEclipse (&M)", "myeclipseforspring", "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" },
     { "Sublime (&S)", "subl3", '/opt/sublime_text_3/Icon/16x16/sublime-text.png' },
-    { "为知笔记 (&W)", "wiznote", "/usr/share/icons/hicolor/16x16/apps/wiznote.png" },
+    { "为知笔记 (&W)", "WizNote", "/usr/share/icons/hicolor/16x16/apps/wiznote.png" },
     { "Synergy (&Y)", "synergy", '/usr/share/pixmaps/synergy.png' },
 }
 
@@ -669,8 +671,8 @@ globalkeys = awful.util.table.join(
         end),
 
     -- My programs
-    awful.key({ modkey,           }, "g", function () awful.util.spawn("gvim") end),
-    awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("subl3") end),
+    -- awful.key({ modkey,           }, "g", function () awful.util.spawn("gvim") end),
+    -- awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("subl3") end),
     awful.key({ "Control", "Mod1", "Shift" }, "x", function () awful.util.spawn("xkill") end),
     awful.key({ "Control", "Mod1" }, "l", function () awful.util.spawn("leave") end),
     -- awful.key({ modkey,           }, "x", function () awful.util.spawn("openmsg.py", false) end),
@@ -850,7 +852,7 @@ awful.rules.rules = {
     rule = { class = "Bcompare", role = "BcDialog" }, -- Beyond Compare
     properties = { floating = true }
   }, {
-    rule_any = { 
+    rule_any = {
       instance = {'TM.exe', 'QQ.exe'},
     },
     properties = {
@@ -871,17 +873,17 @@ awful.rules.rules = {
       floating = true,
       border_width = 0,
     }
-  }, {
-    rule = {
-      -- for WinHex
-      class = "Wine",
-      instance = "WinHex.exe",
-      name = "数据解释器",
-    },
-    properties = {
-      floating = true,
-      border_width = 0,
-    }
+  -- }, {
+  --   rule = {
+  --     -- for WinHex
+  --     class = "Wine",
+  --     instance = "WinHex.exe",
+  --     name = "数据解释器",
+  --   },
+  --   properties = {
+  --     floating = true,
+  --     border_width = 0,
+  --   }
   }, {
     rule = {
       class = "Wine",
@@ -910,6 +912,7 @@ awful.rules.rules = {
         'Eog', 'feh', 'Display', 'Gimp', 'Gimp-2.6',
         'Screenkey', 'TempTerm', 'AliWangWang',
         'Dia', 'Pavucontrol', 'goldendict', 'XEyes', 'Skype',
+        'Doublecmd',
       },
       name = {
         '文件传输', 'Firefox 首选项', '暂存器', 'Keyboard',
@@ -1015,7 +1018,9 @@ awful.tag.viewonly(tags[1][6])
 awful.util.spawn_with_shell("/usr/lib/polkit-1/polkit-agent-helper-1")
 run_once("nm-applet")
 -- {{{ Autostart Input Method
+run_once("/home/f/comptonb")
 run_once("fcitx")
+run_once("fcitx-qimpanel")
 -- {{{ Autostart Clipboard Manager
 run_once("clipit")
 -- {{{ Autostart Urxvt Daemon
