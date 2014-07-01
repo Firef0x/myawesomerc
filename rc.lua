@@ -177,10 +177,10 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock(" %Y年%m月%d日 %H:%M:%S %A ", 1)
+mytextclock = awful.widget.textclock(" %m月%d日 %H:%M:%S %A ", 1)
 
 -- {{{ my widgets
--- {{{ Network speed indicator
+-- {{{ [Disabled]Network speed indicator
 function update_netstat()
     local interval = netwidget_clock.timeout
     local netif, text
@@ -223,17 +223,17 @@ function update_netstat()
     end
     netwidget:set_markup(text)
 end
-netdata = {}
-netwidget = fixwidthtextbox('(net)')
-netwidget.width = 100
-netwidget:set_align('center')
-netwidget_clock = timer({ timeout = 2 })
-netwidget_clock:connect_signal("timeout", update_netstat)
-netwidget_clock:start()
-update_netstat()
+-- netdata = {}
+-- netwidget = fixwidthtextbox('(net)')
+-- netwidget.width = 100
+-- netwidget:set_align('center')
+-- netwidget_clock = timer({ timeout = 2 })
+-- netwidget_clock:connect_signal("timeout", update_netstat)
+-- netwidget_clock:start()
+-- update_netstat()
 -- }}}
 
--- {{{ memory usage indicator
+-- {{{ [Disabled]memory usage indicator
 function update_memwidget()
     local meminfo = get_memory_usage()
     local free
@@ -255,7 +255,7 @@ end
 -- mem_clock:start()
 -- }}}
 
--- --{{{ battery indicator, using smapi
+-- --{{{ [Disabled]battery indicator, using smapi
 -- local battery_state = {
     -- unknown     = '<span color="yellow">? ',
     -- idle        = '<span color="#0000ff">↯',
@@ -305,13 +305,96 @@ end
 -- bat_clock:start()
 -- -- }}}
 
+--{{{ battery indicator, using vicious.widgets.bat
+--  from http://git.sysphere.org/vicious/tree/README
+--  vicious.register(widget, wtype, format, interval, warg)
+--
+--       widget
+--         - widget created with widget() or awful.widget() (in case of a
+--           graph or a progressbar)
+--
+--       wtype
+--         - widget type or a function
+--           - any of the available (default, or custom) widget types can
+--             be used here, see below for a list of those provided by
+--             Vicious
+--         - function
+--           - custom functions from your own "awesome" configuration can
+--             be registered as widget types, see the "Custom widget types"
+--             section
+--
+--       format
+--         - string argument or a function
+--           - $1, $2, $3... will be replaced by their respective value
+--             returned by the widget type, some widget types return tables
+--             with string keys, in that case use: ${key}
+--         - function
+--           - function(widget, args) can be used to manipulate data
+--             returned by the widget type, more about this below
+--
+--       interval
+--         - number of seconds between updates of the widget, 2s by
+--           default, also read the "Power" section below
+--
+--       warg
+--         - some widget types require an argument to be passed, for example
+--           the battery ID
+--
+--
+--  vicious.widgets.bat
+--
+--     - provides state, charge, remaining time and wear for a requested
+--       battery
+--     - takes battery ID as an argument, i.e. "BAT0"
+--     - returns 1st value as state of requested battery, 2nd as charge
+--       level in percent, 3rd as remaining (charging or discharging)
+--       time and 4th as the wear level in percent
+--
 local batwidget = wibox.widget.textbox()
 vicious.register(batwidget,
     vicious.widgets.bat,
     function (widget, args)
-        return '<span color="red">↯' .. args[2] .. '%</span>'
+        local state, percent, time = args[1], args[2], args[3]
+        local time_text, unknownState, state_text = '可用', 0
+        if state == "↯" then
+            -- color: dodgerblue 闪蓝色
+            state_text = '<span color = "#1e90ff">'
+        elseif state == "+" then
+            -- color: lawngreen 草绿色
+            state_text = '<span color = "#7cfc00">'
+            time_text = '充满'
+        elseif state == "−" then
+            -- color: yellow
+            state_text = '<span color = "#ffff00">'
+        else
+            -- color: blue
+            state_text = '<span color = "#0000ff">'
+            unknownState = 1
+        end
+        if percent <= 25 then
+            if state == '-' then
+                local t = os.time()
+                if t - last_bat_warning > 60 * 7 then
+                    naughty.notify{
+                        preset = naughty.config.presets.critical,
+                        title = "电量警报",
+                        text = '电池电量只剩下 ' .. percent .. '% 了！',
+                    }
+                    last_bat_warning = t
+                end
+            end
+            -- color: red
+            percent = '<span color="#ff2222">' .. percent .. '</span>'
+        end
+        local battery_text = state_text .. state .. percent .. '%'
+        if time ~= 'N/A' and unknownState == 0 then
+            battery_text = battery_text .. ' ' .. time .. '分' .. time_text
+        end
+        battery_text = battery_text .. '</span>'
+        return battery_text
     end,
 61, "BAT0")
+-- }}}
 
 -- {{{ Volume Controller
 function volumectl (mode, widget)
@@ -452,7 +535,8 @@ for s = 1, screen.count() do
     -- 因为屏幕不大，暂时弃用 lilydjwg 的内存小部件
     -- right_layout:add(memwidget)
     right_layout:add(batwidget)
-    right_layout:add(netwidget)
+    -- 因为屏幕不大，暂时弃用 lilydjwg 的网速小部件
+    -- right_layout:add(netwidget)
     right_layout:add(volumewidget)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
@@ -781,17 +865,17 @@ end
 -- }}}
 
 -- {{{ clientbuttons
-clientbuttons = awful.util.table.join(
-    awful.button({ }, 1, function (c)
-        client.focus = c
-        if c.class and (c.class == 'Gimp' or c.class == 'Gimp-2.8') then
-        else
-            c:raise()
-        end
-    end),
-    awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 2, function (c) client.focus = c; c:kill() end),
-    awful.button({ modkey }, 3, function (c) awful.mouse.client.resize(c, "bottom_right") end))
+-- clientbuttons = awful.util.table.join(
+--     awful.button({ }, 1, function (c)
+--         client.focus = c
+--         if c.class and (c.class == 'Gimp' or c.class == 'Gimp-2.8') then
+--         else
+--             c:raise()
+--         end
+--     end),
+--     awful.button({ modkey }, 1, awful.mouse.client.move),
+--     awful.button({ modkey }, 2, function (c) client.focus = c; c:kill() end),
+--     awful.button({ modkey }, 3, function (c) awful.mouse.client.resize(c, "bottom_right") end))
 -- }}}
 
 -- Set keys
@@ -927,13 +1011,16 @@ awful.rules.rules = {
         'Doublecmd', 'goldendict', 'smplayer',
       },
       name = {
+        -- Added by lilydjwg
         '文件传输', 'Firefox 首选项', '暂存器', 'Keyboard',
       },
       instance = {
+        -- Added by lilydjwg
         'Browser', -- 火狐的关于对话框
         'MATLAB', -- splash
       },
       role = {
+        -- Added by lilydjwg
         'TempTerm',
       },
     },
@@ -1022,23 +1109,43 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.util.spawn("awesomeup", false)
 awful.tag.viewonly(tags[1][6])
 
--- Autostart tricks from Awesome Wiki
--- {{{ Run a program only if it is no already running
-function run_once(prg)
-    awful.util.spawn_with_shell("pgrep -u $USER -x " .. prg .. " || (" .. prg .. ")")
+-- {{{ Autostart tricks
+-- From http://awesome.naquadah.org/wiki/Autostart
+-- and  https://github.com/xgdgsc/awesome_conf/blob/master/rc.lua#L481
+-- Run a program only if it is no already running
+function run_once(cmd)
+    local findme = cmd
+    local firstspace = cmd:find(" ")
+    if firstspace then
+        findme = cmd:sub(0, firstspace-1)
+    end
+    awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
+end
+do
+    local cmds =
+    {
+    -- Autostart Network Manager Applet
+    "nm-applet",
+    -- Autostart Input Method
+    -- 消除左上角的黑方块，要运行 compton
+    "compton -b",
+    "fcitx -d",
+    -- 搜狗输入法需要运行 sogou-qimpanel
+    "sogou-qimpanel",
+    -- Autostart Clipboard Manager
+    "clipit",
+    -- Autostart Urxvt Daemon
+    "urxvtd",
+    }
+
+    --  Autostart Network Manager Applet
+    awful.util.spawn_with_shell("/usr/lib/polkit-1/polkit-agent-helper-1")
+
+    for _,i in pairs(cmds) do
+        awful.util.spawn(run_once(i))
+    end
 end
 -- }}}
--- {{{ Autostart Network Manager Applet
-awful.util.spawn_with_shell("/usr/lib/polkit-1/polkit-agent-helper-1")
-run_once("nm-applet")
--- {{{ Autostart Input Method
-run_once("/home/f/comptonb")
-run_once("fcitx")
-run_once("fcitx-qimpanel")
--- {{{ Autostart Clipboard Manager
-run_once("clipit")
--- {{{ Autostart Urxvt Daemon
-run_once("urxvtd")
--- }}}
+
 -- vim: set fdm=marker et sw=4:
 -- }}}
