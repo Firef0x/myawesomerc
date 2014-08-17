@@ -54,7 +54,8 @@ xdgmenu = function(terminal)
         {'urxvt', 'urxvt', '/usr/share/icons/gnome/16x16/apps/utilities-terminal.png' --[[/usr/share/applications/urxvt.desktop]]},
         {'urxvt (client)', 'urxvtc', '/usr/share/icons/gnome/16x16/apps/utilities-terminal.png' --[[/usr/share/applications/urxvtc.desktop]]},
         {'urxvt (tabbed)', 'urxvt-tabbed', '/usr/share/icons/gnome/16x16/apps/utilities-terminal.png' --[[/usr/share/applications/urxvt-tabbed.desktop]]},
-        {'搜狗拼音', 'fcitx-qimpanel', '/usr/share/icons/hicolor/16x16/apps/fcitx-sogoupinyin.png' --[[/usr/share/applications/fcitx-ui-qimpanel.desktop]]},
+        {'搜狗拼音', 'sogou-qimpanel', '/usr/share/icons/hicolor/16x16/apps/fcitx-sogoupinyin.png' --[[/usr/share/applications/fcitx-ui-sogou-qimpanel.desktop]]},
+        {'磁盘使用情况分析器', 'baobab', '/usr/share/icons/hicolor/16x16/apps/baobab.png' --[[/usr/share/applications/org.gnome.baobab.desktop]]},
       }
     }, {'编程 (&D)', --[[/usr/share/desktop-directories/Arch-Development.directory]] {
         {'Android SDK', 'android', '/usr/share/pixmaps/android-sdk.png' --[[/usr/share/applications/android-sdk.desktop]]},
@@ -73,6 +74,7 @@ xdgmenu = function(terminal)
         {'Qt4 Designer', 'designer-qt4', '/usr/share/icons/hicolor/128x128/apps/designer-qt4.png' --[[/usr/share/applications/designer-qt4.desktop]]},
         {'Qt4 Linguist', 'linguist-qt4', '/usr/share/icons/hicolor/16x16/apps/linguist-qt4.png' --[[/usr/share/applications/linguist-qt4.desktop]]},
         {'Qt4 QDbusViewer', 'qdbusviewer-qt4', '/usr/share/icons/hicolor/128x128/apps/qdbusviewer-qt4.png' --[[/usr/share/applications/qdbusviewer-qt4.desktop]]},
+        {'SmartGit/Hg', 'smartgithg', '/opt/smartgithg/bin/smartgithg-256.png' --[[/usr/share/applications/smartgithg.desktop]]},
         {'Sublime Text 3 Dev', 'subl3', '/usr/share/icons/hicolor/16x16/apps/sublime-text.png' --[[/usr/share/applications/sublime_text_3.desktop]]},
         {'Uninstall MyEclipse for Spring', '/usr/share/myeclipse-spring/Uninstaller/one-uninstall', '/usr/share/myeclipse-spring/configuration/com.genuitec.pulse.client.delivery.install.meta/1706109892-13916.png' --[[/usr/share/applications/Uninstall_MyEclipse_for_Spring.desktop]]},
         {'数据库浏览器', 'gda-browser-5.0', '/usr/share/pixmaps/gda-browser-5.0.png' --[[/usr/share/applications/gda-browser-5.0.desktop]]},

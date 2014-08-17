@@ -56,7 +56,7 @@ beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
-editor = "gvim"
+editor = "gvim --remote-silent"
 editor_cmd = editor
 browser = firefox
 file_manager = doublecmd
@@ -107,7 +107,7 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags_name = { "1火狐", "2BC", "3文档", "4FTP", "5文件", "6终端", "7代码", "8Git", "9", "0" }
+tags_name = { "1火狐", "2BC", "3文档", "4FTP", "5文件", "6终端", "7代码", "8Git", "9", "0浮动" }
 tags_layout = {
     awful.layout.suit.tile,
     awful.layout.suit.tile,
@@ -136,35 +136,38 @@ end
 -- Create a laucher widget and a main menu
 local myawesomemenu = {
    { "版本 " .. awesome.version , " " },
-   { "编辑配置 (&E)", editor_cmd .. " " .. awesome.conffile , '/usr/share/icons/gnome/16x16/actions/gtk-select-all.png' },
-   { "重新加载 (&R)", awesome.restart, '/usr/share/icons/gnome/16x16/actions/stock_refresh.png' },
-   { "注销 (&L)", awesome.quit },
-   { "挂起 (&S)", "systemctl suspend" },
-   { "重启 (&B)", "systemctl reboot" },
-   { "关机 (&H)", "systemctl poweroff", '/usr/share/icons/gnome/16x16/actions/gtk-quit.png' },
+   { "编辑配置 (&E)"            , editor_cmd .. " " .. awesome.conffile , '/usr/share/icons/gnome/16x16/actions/gtk-select-all.png' },
+   { "重新加载 (&R)"            , awesome.restart, '/usr/share/icons/gnome/16x16/actions/stock_refresh.png' },
+   { "注销 (&L)"                , awesome.quit },
+   { "挂起 (&S)"                , "systemctl suspend" },
+   { "重启 (&B)"                , "systemctl reboot" },
+   { "关机 (&H)"                , "systemctl poweroff", '/usr/share/icons/gnome/16x16/actions/gtk-quit.png' },
 }
 
 local mymenu = {
-    { "BCompare (&B)", "bcompare", "/usr/share/pixmaps/bcompare.png" },
-    { "Chrome (&C)", "/opt/google/chrome/google-chrome", "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" },
-    { "DoubleCmd (&D)", "doublecmd", '/usr/share/pixmaps/doublecmd.png' },
-    { "FileZilla (&F)", "filezilla", '/usr/share/pixmaps/filezilla.png' --[[/usr/share/applications/filezilla.desktop]]},
-    { "Git Cola (&G)", 'git-cola --prompt', '/usr/share/git-cola/icons/git.svg' --[[/usr/share/applications/git-cola.desktop]]},
-    { "Chr隐私 (&H)", "/opt/google/chrome/google-chrome --incognito", "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" },
-    { "Leafpad (&L)", "leafpad", "/usr/share/pixmaps/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]},
-    { "MyEclipse (&M)", "myeclipseforspring", "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" },
-    { "Sublime (&S)", "subl3", '/opt/sublime_text_3/Icon/16x16/sublime-text.png' },
-    { "为知笔记 (&W)", "WizNote", "/usr/share/icons/hicolor/16x16/apps/wiznote.png" },
-    { "Synergy (&Y)", "synergy", '/usr/share/pixmaps/synergy.png' },
+    { "SmartGit (&A)" , "smartgithg"                                   , "/opt/smartgithg/bin/smartgithg-256.png" --[[/usr/share/applications/smartgithg.desktop]]}                                         ,
+    { "BCompare (&B)" , "bcompare"                                     , "/usr/share/pixmaps/bcompare.png" }                                                                                                ,
+    { "Chrome (&C)"   , "/opt/google/chrome/google-chrome"             , "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" }                                                                          ,
+    { "文件管理 (&D)" , "doublecmd"                                    , "/usr/share/pixmaps/doublecmd.png" }                                                                                               ,
+    { "FTP浏览 (&F)"  , "filezilla"                                    , "/usr/share/pixmaps/filezilla.png" --[[/usr/share/applications/filezilla.desktop]]}                                                ,
+    { "Git Cola (&G)" , "git-cola --prompt"                            , "/usr/share/git-cola/icons/git.svg" --[[/usr/share/applications/git-cola.desktop]]}                                                ,
+    { "Chr隐私 (&H)"  , "/opt/google/chrome/google-chrome --incognito" , "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" }                                                                          ,
+    { "Leafpad (&L)"  , "leafpad"                                      , "/usr/share/pixmaps/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]}                                                    ,
+    { "ME4S (&M)"     , "myeclipseforspring"                           , "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" } ,
+    { "词典 (&O)"     , "goldendict"                                   , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                              ,
+    { "PDF阅读 (&R)"  , "acroread"                                     , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                  ,
+    { "Sublime (&S)"  , "subl3"                                        , "/opt/sublime_text_3/Icon/16x16/sublime-text.png" }                                                                                ,
+    { "为知笔记 (&W)" , "WizNote"                                      , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" }                                                                                ,
+    { "Synergy (&Y)"  , "synergy"                                      , "/usr/share/pixmaps/synergy.png" }                                                                                                 ,
 }
 
 mymainmenu = awful.menu({ items = {
-          { "Awesome (&W)", myawesomemenu, beautiful.awesome_icon },
-          { "终端 (&T)", terminal ,'/usr/share/icons/Faenza/apps/16/Terminal.png'},
-          { "gVim (&V)", "gvim", '/usr/share/pixmaps/gvim.png' },
-          { "火狐 (&F)", "firefox", '/usr/share/icons/hicolor/16x16/apps/firefox.png' },
-          { "常用 (&U)", mymenu },
-          { "应用 (&A)", xdgmenu(terminal) },
+          { "Awesome (&W)" , myawesomemenu       , beautiful.awesome_icon }                            ,
+          { "终端 (&T)"    , terminal            , '/usr/share/icons/Faenza/apps/16/Terminal.png'}     ,
+          { "gVim (&V)"    , "gvim"              , '/usr/share/pixmaps/gvim.png' }                     ,
+          { "火狐 (&F)"    , "firefox"           , '/usr/share/icons/hicolor/16x16/apps/firefox.png' } ,
+          { "常用 (&U)"    , mymenu }            ,
+          { "应用 (&A)"    , xdgmenu(terminal) } ,
           }
 })
 
@@ -976,6 +979,9 @@ awful.rules.rules = {
     properties = { floating = true }
   }, {
     rule = { class = "Bcompare", role = "BcDialog" }, -- Beyond Compare
+    properties = { floating = true }
+  }, {
+    rule = { class = "SmartGit/Hg", name = "Preferences" }, -- SmartGit/Hg Preferences window
     properties = { floating = true }
   }, {
     rule_any = {
