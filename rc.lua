@@ -1205,8 +1205,9 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+-- }}}
 
--- {{{ other things
+-- {{{ Other things
 awful.util.spawn("awesomeup", false)
 awful.tag.viewonly(tags[1][6])
 
@@ -1232,11 +1233,13 @@ do
     "compton -b",
     "fcitx -d",
     -- 搜狗输入法需要运行 sogou-qimpanel
-    "sogou-qimpanel",
+    -- "sogou-qimpanel",
     -- Autostart Clipboard Manager
     "clipit",
     -- Autostart Urxvt Daemon
     "urxvtd",
+    -- Conky (见 http://tieba.baidu.com/f?ct=335675392&tn=baiduPostBrowser&z=3244983715&sc=56424608117#56424608117 )
+    "conky",
     }
 
     --  Autostart Network Manager Applet
