@@ -742,6 +742,7 @@ evince_keys = {
     b = 'Page_Up',
 }
 -- }}}
+-- }}}
 
 -- {{{ globalkeys
 globalkeys = awful.util.table.join(
@@ -1101,13 +1102,13 @@ awful.rules.rules = {
     rule_any = {
       class = {
         -- Added by lilydjwg
-        'MPlayer', 'Flashplayer', 'Gnome-mplayer', 'Totem',
+        'Flashplayer', 'Gnome-mplayer', 'Totem',
         'Eog', 'feh', 'Display', 'Gimp', 'Gimp-2.6',
         'Screenkey', 'TempTerm', 'AliWangWang',
         'Dia', 'Pavucontrol', 'Stardict', 'XEyes', 'Skype',
         'Xfce4-appfinder',
         -- Added by me
-        'Doublecmd', 'goldendict', 'smplayer',
+        'Doublecmd', 'goldendict'
       },
       name = {
         -- Added by lilydjwg
@@ -1199,12 +1200,14 @@ client.connect_signal("manage", function (c, startup)
             end
         end
         handled = false
+      elseif c.class == 'MPlayer' or c.class == 'mpv' or c.class == 'smplayer' then
+        awful.client.floating.set(c, true)
+        awful.placement.centered(c)
     end
 end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
--- }}}
 -- }}}
 
 -- {{{ Other things
