@@ -218,6 +218,7 @@ local mymenu = {
     { "词典 (&O)"     , "goldendict"                                   , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                              ,
     { "PDF阅读 (&R)"  , "acroread"                                     , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                  ,
     { "Sublime (&S)"  , "subl3"                                        , "/opt/sublime_text_3/Icon/16x16/sublime-text.png" }                                                                                ,
+    { "TrCrypt (&T)"  , "truecrypt"                                    , "/usr/share/pixmaps/truecrypt.xpm" --[[/usr/share/applications/truecrypt.desktop]]},
     { "为知笔记 (&W)" , "WizNote"                                      , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" }                                                                                ,
     { "Synergy (&Y)"  , "synergy"                                      , "/usr/share/pixmaps/synergy.png" }                                                                                                 ,
 }

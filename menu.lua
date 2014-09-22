@@ -48,6 +48,7 @@ xdgmenu = function(terminal)
         {'Fcitx 配置工具', 'fcitx-config-gtk3', '/usr/share/icons/hicolor/16x16/apps/fcitx.png'},
         {'Htop', (terminal or "xterm") .. " -e 'htop'", '/usr/share/pixmaps/htop.png' --[[/usr/share/applications/htop.desktop]]},
         {'SpaceFM', 'spacefm', '/usr/share/icons/hicolor/48x48/apps/spacefm.png' --[[/usr/share/applications/spacefm.desktop]]},
+        {'TrueCrypt', 'truecrypt', '/usr/share/pixmaps/truecrypt.xpm' --[[/usr/share/applications/truecrypt.desktop]]},
         {'UXTerm', 'uxterm', '/usr/share/pixmaps/xterm-color_48x48.xpm' --[[/usr/share/applications/uxterm.desktop]]},
         {'XTerm', 'xterm', '/usr/share/pixmaps/xterm-color_48x48.xpm' --[[/usr/share/applications/xterm.desktop]]},
         {'dconf 系统配置编辑器', 'dconf-editor', '/usr/share/icons/hicolor/16x16/apps/dconf-editor.png' --[[/usr/share/applications/dconf-editor.desktop]]},
@@ -81,17 +82,18 @@ xdgmenu = function(terminal)
       }
     }, {'附件 (&A)', --[[/usr/share/desktop-directories/Arch-Accessories.directory]] {
         {'7-Zip FM', '7zFM', '/usr/share/icons/hicolor/32x32/apps/p7zip.png' --[[/usr/share/applications/7zFM.desktop]]},
+        {'Byobu Terminal', (terminal or "xterm") .. " -e 'env TERM=xterm-256color byobu'" --[[/usr/share/applications/byobu.desktop]]},
         {'ClipIt', 'clipit', '/usr/share/icons/hicolor/scalable/apps/clipit-trayicon.svg' --[[/usr/share/applications/clipit.desktop]]},
         {'Double Commander', 'doublecmd', '/usr/share/pixmaps/doublecmd.png' --[[/usr/share/applications/doublecmd.desktop]]},
         {'Fcitx 皮肤安装器', 'fcitx-skin-installer', '/usr/share/icons/hicolor/16x16/apps/fcitx.png' --[[/usr/share/applications/fcitx-skin-installer.desktop]]},
         {'Leafpad', 'leafpad', '/usr/share/pixmaps/leafpad.png' --[[/usr/share/applications/leafpad.desktop]]},
         {'SpaceFM File Search', 'spacefm --find-files', '/usr/share/icons/hicolor/48x48/apps/spacefm-find.png' --[[/usr/share/applications/spacefm-find.desktop]]},
         {'Synergy', 'synergy', '/usr/share/pixmaps/synergy.png' --[[/usr/share/applications/synergy.desktop]]},
-        {'aafm', 'aafm', '/usr/share/icons/hicolor/128x128/apps/aafm.png' --[[/usr/share/applications/aafm.desktop]]},
+        {'Vi IMproved', 'gvim -f', '/usr/share/pixmaps/gvim.png' --[[/usr/share/applications/gvim.desktop]]},
+        {'aafm', 'aafm', '/usr/share/icons/hicolor/64x64/apps/aafm.png' --[[/usr/share/applications/aafm.desktop]]},
         {'compton', 'compton' --[[/usr/share/applications/compton.desktop]]},
-        {'gVim', 'gvim', '/usr/share/pixmaps/gvim.png' --[[/usr/share/applications/gvim.desktop]]},
-        {'归档管理器', 'file-roller', '/usr/share/icons/hicolor/16x16/apps/file-roller.png' --[[/usr/share/applications/org.gnome.FileRoller.desktop]]},
         {'为知笔记', 'WizNote', '/usr/share/icons/hicolor/16x16/apps/wiznote.png' --[[/usr/share/applications/wiznote.desktop]]},
+        {'归档管理器', 'file-roller', '/usr/share/icons/hicolor/16x16/apps/file-roller.png' --[[/usr/share/applications/org.gnome.FileRoller.desktop]]},
       }
     }
   }
