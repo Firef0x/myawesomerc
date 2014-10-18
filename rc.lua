@@ -55,7 +55,7 @@ end
 beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvtc"
+terminal = "xfce4-terminal"
 editor = "gvim --remote-silent"
 editor_cmd = editor
 browser = firefox
@@ -197,37 +197,38 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 local myawesomemenu = {
-   { "编辑配置 (&E)"            , editor_cmd .. " " .. awesome.conffile , '/usr/share/icons/gnome/16x16/actions/gtk-select-all.png' },
-   { "重新加载 (&R)"            , awesome.restart, '/usr/share/icons/gnome/16x16/actions/stock_refresh.png' },
-   { "注销 (&L)"                , awesome.quit },
-   { "挂起 (&S)"                , "systemctl suspend" },
-   { "重启 (&B)"                , "systemctl reboot" },
-   { "关机 (&H)"                , "systemctl poweroff", '/usr/share/icons/gnome/16x16/actions/gtk-quit.png' },
+   { "编辑配置 (&E)" , editor_cmd .. " " .. awesome.conffile , '/usr/share/icons/gnome/16x16/actions/gtk-select-all.png' }   ,
+   { "重新加载 (&R)" , awesome.restart                       , '/usr/share/icons/gnome/16x16/actions/stock_refresh.png' }    ,
+   { "注销 (&L)"     , awesome.quit                          , '/usr/share/icons/Faenza/apps/16/gnome-logout.png' }          ,
+   { "挂起 (&S)"     , "systemctl suspend"                   , '/usr/share/icons/Faenza/apps/16/gnome-session-suspend.png' } ,
+   { "重启 (&B)"     , "systemctl reboot"                    , '/usr/share/icons/Faenza/apps/16/gnome-session-reboot.png' }  ,
+   { "关机 (&H)"     , "systemctl poweroff"                  , '/usr/share/icons/gnome/16x16/actions/gtk-quit.png' }         ,
 }
 
 local mymenu = {
-    { "SmartGit (&A)" , "smartgithg"                                   , "/opt/smartgithg/bin/smartgithg-256.png" --[[/usr/share/applications/smartgithg.desktop]]}                                         ,
     { "BCompare (&B)" , "bcompare"                                     , "/usr/share/pixmaps/bcompare.png" }                                                                                                ,
-    { "Chrome (&C)"   , "/opt/google/chrome/google-chrome"             , "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" }                                                                          ,
+    { "Chrome   (&C)" , "/opt/google/chrome/google-chrome"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" }                                                                              ,
     { "文件管理 (&D)" , "doublecmd"                                    , "/usr/share/pixmaps/doublecmd.png" }                                                                                               ,
-    { "FTP浏览 (&F)"  , "filezilla"                                    , "/usr/share/pixmaps/filezilla.png" --[[/usr/share/applications/filezilla.desktop]]}                                                ,
+    { "FTP浏览  (&F)" , "filezilla"                                    , "/usr/share/pixmaps/filezilla.png" --[[/usr/share/applications/filezilla.desktop]]}                                                ,
     { "Git Cola (&G)" , "git-cola --prompt"                            , "/usr/share/git-cola/icons/git.svg" --[[/usr/share/applications/git-cola.desktop]]}                                                ,
-    { "Chr隐私 (&H)"  , "/opt/google/chrome/google-chrome --incognito" , "/usr/share/icons/hicolor/16x16/apps/google-chrome.png" }                                                                          ,
-    { "Leafpad (&L)"  , "leafpad"                                      , "/usr/share/pixmaps/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]}                                                    ,
-    { "ME4S (&M)"     , "myeclipseforspring"                           , "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" } ,
-    { "词典 (&O)"     , "goldendict"                                   , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                              ,
-    { "PDF阅读 (&R)"  , "acroread"                                     , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                  ,
-    { "Sublime (&S)"  , "subl3"                                        , "/opt/sublime_text_3/Icon/16x16/sublime-text.png" }                                                                                ,
-    { "TrCrypt (&T)"  , "truecrypt"                                    , "/usr/share/pixmaps/truecrypt.xpm" --[[/usr/share/applications/truecrypt.desktop]]},
+    { "Chr隐私  (&H)" , "/opt/google/chrome/google-chrome --incognito" , "/usr/share/icons/Faenza/apps/16/google-chrome.png" }                                                                              ,
+    { "Leafpad  (&L)" , "leafpad"                                      , "/usr/share/icons/Faenza/apps/16/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]}                                       ,
+    { "ME4S     (&M)" , "myeclipseforspring"                           , "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" } ,
+    { "词典     (&O)" , "goldendict"                                   , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                              ,
+    { "SMPlayer (&P)" , "smplayer"                                     , "/usr/share/icons/Faenza/apps/16/mplayer.png" --[[/usr/share/applications/smplayer.desktop]]}                                      ,
+    { "PDF阅读  (&R)" , "acroread"                                     , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                  ,
+    { "SmartGit (&S)" , "smartgithg"                                   , "/opt/smartgithg/bin/smartgithg-256.png" --[[/usr/share/applications/smartgithg.desktop]]}                                         ,
+    { "TrCrypt  (&T)" , "truecrypt"                                    , "/usr/share/icons/Faenza/apps/16/truecrypt.png" --[[/usr/share/applications/truecrypt.desktop]]}                                   ,
+    { "Sublime  (&U)" , "subl3"                                        , "/opt/sublime_text_3/Icon/16x16/sublime-text.png" }                                                                                ,
     { "为知笔记 (&W)" , "WizNote"                                      , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" }                                                                                ,
-    { "Synergy (&Y)"  , "synergy"                                      , "/usr/share/pixmaps/synergy.png" }                                                                                                 ,
+    { "Synergy  (&Y)" , "synergy"                                      , "/usr/share/pixmaps/synergy.png" }                                                                                                 ,
 }
 
 mymainmenu = awful.menu({ items = {
-          { "Awesome (&W)" , myawesomemenu       , beautiful.awesome_icon }                            ,
-          { "终端 (&T)"    , terminal            , '/usr/share/icons/Faenza/apps/16/Terminal.png'}     ,
-          { "gVim (&V)"    , "gvim"              , '/usr/share/pixmaps/gvim.png' }                     ,
-          { "火狐 (&F)"    , "firefox"           , '/usr/share/icons/hicolor/16x16/apps/firefox.png' } ,
+          { "Awesome (&W)" , myawesomemenu       , beautiful.awesome_icon }                                 ,
+          { "终端 (&T)"    , terminal            , '/usr/share/icons/Faenza/apps/16/Terminal.png' }         ,
+          { "gVim (&V)"    , "gvim"              , '/usr/share/icons/Faenza/apps/16/vim.png' }              ,
+          { "火狐 (&F)"    , "firefox"           , '/usr/share/icons/Faenza/apps/16/firefox-original.png' } ,
           { "常用 (&U)"    , mymenu }            ,
           { "应用 (&A)"    , xdgmenu(terminal) } ,
           }
@@ -542,7 +543,7 @@ volumewidget:set_align('right')
 volumewidget:buttons(awful.util.table.join(
     awful.button({ }, 4, function () volumectl("up", volumewidget) end),
     awful.button({ }, 5, function () volumectl("down", volumewidget) end),
-    awful.button({ }, 3, function () awful.util.spawn("urxvtc -e alsamixer") end),
+    awful.button({ }, 3, function () awful.util.spawn("xfce4-terminal -e alsamixer") end),
     awful.button({ }, 1, function () volumectl("mute", volumewidget) end)
 ))
 volumectl("update", volumewidget)
@@ -781,7 +782,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Return",
         function ()
             -- Go and find a terminal for me
-            myutil.run_or_raise("urxvtc --role=TempTerm", { role = "TempTerm" })
+            myutil.run_or_raise("xfce4-terminal --role=TempTerm --geometry=80x24+343+180", { role = "TempTerm" })
         end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Control" }, "q", awesome.quit),
@@ -871,7 +872,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "t", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "Return",
         function ()
-            awful.util.spawn("urxvtc --role=TempTerm --geometry=80x24+343+180")
+            awful.util.spawn("xfce4-terminal --role=TempTerm --geometry=80x24+343+180")
         end),
 
     -- htop
@@ -880,7 +881,7 @@ globalkeys = awful.util.table.join(
             if client.focus and client.focus.role == 'FullScreenHtop' then
                 awful.client.movetotag(tags[mouse.screen][10], client.focus)
             else
-                myutil.run_or_raise("urxvtc --role=FullScreenHtop -e 'htop'", { role = "FullScreenHtop" })
+                myutil.run_or_raise("xfce4-terminal --role=FullScreenHtop -e 'htop'", { role = "FullScreenHtop" })
             end
         end),
 
@@ -1240,8 +1241,6 @@ do
     -- "sogou-qimpanel",
     -- Autostart Clipboard Manager
     "clipit",
-    -- Autostart Urxvt Daemon
-    "urxvtd",
     -- Conky (见 http://tieba.baidu.com/f?ct=335675392&tn=baiduPostBrowser&z=3244983715&sc=56424608117#56424608117 )
     "conky",
     }

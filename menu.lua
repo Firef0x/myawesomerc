@@ -51,10 +51,8 @@ xdgmenu = function(terminal)
         {'TrueCrypt', 'truecrypt', '/usr/share/pixmaps/truecrypt.xpm' --[[/usr/share/applications/truecrypt.desktop]]},
         {'UXTerm', 'uxterm', '/usr/share/pixmaps/xterm-color_48x48.xpm' --[[/usr/share/applications/uxterm.desktop]]},
         {'XTerm', 'xterm', '/usr/share/pixmaps/xterm-color_48x48.xpm' --[[/usr/share/applications/xterm.desktop]]},
-        {'dconf 系统配置编辑器', 'dconf-editor', '/usr/share/icons/hicolor/16x16/apps/dconf-editor.png' --[[/usr/share/applications/dconf-editor.desktop]]},
-        {'urxvt', 'urxvt', '/usr/share/icons/gnome/16x16/apps/utilities-terminal.png' --[[/usr/share/applications/urxvt.desktop]]},
-        {'urxvt (client)', 'urxvtc', '/usr/share/icons/gnome/16x16/apps/utilities-terminal.png' --[[/usr/share/applications/urxvtc.desktop]]},
-        {'urxvt (tabbed)', 'urxvt-tabbed', '/usr/share/icons/gnome/16x16/apps/utilities-terminal.png' --[[/usr/share/applications/urxvt-tabbed.desktop]]},
+        {'Xfce 终端', 'xfce4-terminal', '/usr/share/icons/gnome/16x16/apps/utilities-terminal.png' --[[/usr/share/applications/xfce4-terminal.desktop]]},
+        {'dconf 系统配置编辑器', 'dconf-editor', '/usr/share/icons/hicolor/16x16/apps/dconf-editor.png' --[[/usr/share/applications/ca.desrt.dconf-editor.desktop]]},
         {'搜狗拼音', 'sogou-qimpanel', '/usr/share/icons/hicolor/16x16/apps/fcitx-sogoupinyin.png' --[[/usr/share/applications/fcitx-ui-sogou-qimpanel.desktop]]},
         {'磁盘使用情况分析器', 'baobab', '/usr/share/icons/hicolor/16x16/apps/baobab.png' --[[/usr/share/applications/org.gnome.baobab.desktop]]},
       }
@@ -90,9 +88,11 @@ xdgmenu = function(terminal)
         {'SpaceFM File Search', 'spacefm --find-files', '/usr/share/icons/hicolor/48x48/apps/spacefm-find.png' --[[/usr/share/applications/spacefm-find.desktop]]},
         {'Synergy', 'synergy', '/usr/share/pixmaps/synergy.png' --[[/usr/share/applications/synergy.desktop]]},
         {'Vi IMproved', 'gvim -f', '/usr/share/pixmaps/gvim.png' --[[/usr/share/applications/gvim.desktop]]},
-        {'aafm', 'aafm', '/usr/share/icons/hicolor/64x64/apps/aafm.png' --[[/usr/share/applications/aafm.desktop]]},
+        {'aafm', 'aafm', '/usr/share/icons/hicolor/128x128/apps/aafm.png' --[[/usr/share/applications/aafm.desktop]]},
         {'compton', 'compton' --[[/usr/share/applications/compton.desktop]]},
         {'为知笔记', 'WizNote', '/usr/share/icons/hicolor/16x16/apps/wiznote.png' --[[/usr/share/applications/wiznote.desktop]]},
+        {'关于 Xfce', 'xfce4-about', '/usr/share/icons/gnome/16x16/actions/help-about.png' --[[/usr/share/applications/xfce4-about.desktop]]},
+        {'密码和密钥', '/usr/bin/seahorse', '/usr/share/icons/hicolor/16x16/apps/seahorse.png' --[[/usr/share/applications/seahorse.desktop]]},
         {'归档管理器', 'file-roller', '/usr/share/icons/hicolor/16x16/apps/file-roller.png' --[[/usr/share/applications/org.gnome.FileRoller.desktop]]},
       }
     }
