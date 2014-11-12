@@ -206,12 +206,12 @@ local myawesomemenu = {
 }
 
 local mymenu = {
-    { "BCompare (&B)" , "bcompare"                                     , "/usr/share/pixmaps/bcompare.png" }                                                                                                ,
-    { "Chrome   (&C)" , "/opt/google/chrome/google-chrome"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" }                                                                              ,
-    { "文件管理 (&D)" , "doublecmd"                                    , "/usr/share/pixmaps/doublecmd.png" }                                                                                               ,
+    { "BCompare (&B)" , "bcompare"                                     , "/usr/share/pixmaps/bcompare.png" --[[/usr/share/applications/bcompare.desktop]]}                                                  ,
+    { "Chrome   (&C)" , "/opt/google/chrome/google-chrome"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
+    { "文件管理 (&D)" , "doublecmd"                                    , "/usr/share/pixmaps/doublecmd.png" --[[/usr/share/applications/doublecmd.desktop]]}                                                ,
     { "FTP浏览  (&F)" , "filezilla"                                    , "/usr/share/pixmaps/filezilla.png" --[[/usr/share/applications/filezilla.desktop]]}                                                ,
     { "Git Cola (&G)" , "git-cola --prompt"                            , "/usr/share/git-cola/icons/git.svg" --[[/usr/share/applications/git-cola.desktop]]}                                                ,
-    { "Chr隐私  (&H)" , "/opt/google/chrome/google-chrome --incognito" , "/usr/share/icons/Faenza/apps/16/google-chrome.png" }                                                                              ,
+    { "Chr隐私  (&H)" , "/opt/google/chrome/google-chrome --incognito" , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
     { "Leafpad  (&L)" , "leafpad"                                      , "/usr/share/icons/Faenza/apps/16/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]}                                       ,
     { "ME4S     (&M)" , "myeclipseforspring"                           , "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" } ,
     { "词典     (&O)" , "goldendict"                                   , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                              ,
@@ -219,9 +219,8 @@ local mymenu = {
     { "PDF阅读  (&R)" , "acroread"                                     , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                  ,
     { "SmartGit (&S)" , "smartgithg"                                   , "/opt/smartgithg/bin/smartgithg-256.png" --[[/usr/share/applications/smartgithg.desktop]]}                                         ,
     { "TrCrypt  (&T)" , "truecrypt"                                    , "/usr/share/icons/Faenza/apps/16/truecrypt.png" --[[/usr/share/applications/truecrypt.desktop]]}                                   ,
-    { "Sublime  (&U)" , "subl3"                                        , "/opt/sublime_text_3/Icon/16x16/sublime-text.png" }                                                                                ,
-    { "为知笔记 (&W)" , "WizNote"                                      , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" }                                                                                ,
-    { "Synergy  (&Y)" , "synergy"                                      , "/usr/share/pixmaps/synergy.png" }                                                                                                 ,
+    { "Sublime  (&U)" , "subl3"                                        , "/opt/sublime_text_3/Icon/16x16/sublime-text.png" --[[/usr/share/applications/sublime_text_3.desktop]]}                            ,
+    { "为知笔记 (&W)" , "WizNote"                                      , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" --[[/usr/share/applications/wiznote.desktop]]}                                   ,
 }
 
 mymainmenu = awful.menu({ items = {
@@ -964,17 +963,17 @@ end
 -- }}}
 
 -- {{{ clientbuttons
--- clientbuttons = awful.util.table.join(
---     awful.button({ }, 1, function (c)
---         client.focus = c
---         if c.class and (c.class == 'Gimp' or c.class == 'Gimp-2.8') then
---         else
---             c:raise()
---         end
---     end),
---     awful.button({ modkey }, 1, awful.mouse.client.move),
---     awful.button({ modkey }, 2, function (c) client.focus = c; c:kill() end),
---     awful.button({ modkey }, 3, function (c) awful.mouse.client.resize(c, "bottom_right") end))
+clientbuttons = awful.util.table.join(
+    awful.button({ }, 1, function (c)
+        client.focus = c
+        if c.class and (c.class == 'Gimp' or c.class == 'Gimp-2.8') then
+        else
+            c:raise()
+        end
+    end),
+    awful.button({ modkey }, 1, awful.mouse.client.move),
+    awful.button({ modkey }, 2, function (c) client.focus = c; c:kill() end),
+    awful.button({ modkey }, 3, function (c) awful.mouse.client.resize(c, "bottom_right") end))
 -- }}}
 
 -- Set keys
