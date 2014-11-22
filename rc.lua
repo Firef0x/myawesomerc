@@ -56,7 +56,7 @@ beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xfce4-terminal"
-editor = "gvim --remote-silent"
+editor = "leafpad"
 editor_cmd = editor
 browser = firefox
 file_manager = doublecmd
@@ -197,39 +197,39 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 local myawesomemenu = {
-   { "编辑配置 (&E)" , editor_cmd .. " " .. awesome.conffile , '/usr/share/icons/gnome/16x16/actions/gtk-select-all.png' }   ,
-   { "重新加载 (&R)" , awesome.restart                       , '/usr/share/icons/gnome/16x16/actions/stock_refresh.png' }    ,
-   { "注销 (&L)"     , awesome.quit                          , '/usr/share/icons/Faenza/apps/16/gnome-logout.png' }          ,
-   { "挂起 (&S)"     , "systemctl suspend"                   , '/usr/share/icons/Faenza/apps/16/gnome-session-suspend.png' } ,
-   { "重启 (&B)"     , "systemctl reboot"                    , '/usr/share/icons/Faenza/apps/16/gnome-session-reboot.png' }  ,
-   { "关机 (&H)"     , "systemctl poweroff"                  , '/usr/share/icons/gnome/16x16/actions/gtk-quit.png' }         ,
+   { "重新加载 (&R)" , awesome.restart      , "/usr/share/icons/Faenza/actions/32/view-refresh.png" }            ,
+   { "注销     (&L)" , awesome.quit         , "/usr/share/icons/Faenza/actions/16/application-exit.png" }        ,
+   { "挂起     (&S)" , "systemctl suspend"  , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-suspend.png" } ,
+   { "重启     (&B)" , "systemctl reboot"   , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-reboot.png" }  ,
+   { "关机     (&H)" , "systemctl poweroff" , "/usr/share/icons/gnome/16x16/actions/gtk-quit.png" }              ,
 }
 
 local mymenu = {
     { "BCompare (&B)" , "bcompare"                                     , "/usr/share/pixmaps/bcompare.png" --[[/usr/share/applications/bcompare.desktop]]}                                                  ,
-    { "Chrome   (&C)" , "/opt/google/chrome/google-chrome"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
+    { "Chrome   (&C)" , "google-chrome-stable"                         , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
     { "文件管理 (&D)" , "doublecmd"                                    , "/usr/share/pixmaps/doublecmd.png" --[[/usr/share/applications/doublecmd.desktop]]}                                                ,
+    { "Recoll   (&E)" , "recoll"                                       , "/usr/share/icons/Faenza/actions/32/edit-find.png" --[[/usr/share/applications/recoll-searchgui.desktop]]}                         ,
     { "FTP浏览  (&F)" , "filezilla"                                    , "/usr/share/pixmaps/filezilla.png" --[[/usr/share/applications/filezilla.desktop]]}                                                ,
     { "Git Cola (&G)" , "git-cola --prompt"                            , "/usr/share/git-cola/icons/git.svg" --[[/usr/share/applications/git-cola.desktop]]}                                                ,
-    { "Chr隐私  (&H)" , "/opt/google/chrome/google-chrome --incognito" , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
+    { "Chr隐私  (&H)" , "google-chrome-stable --incognito"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
     { "Leafpad  (&L)" , "leafpad"                                      , "/usr/share/icons/Faenza/apps/16/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]}                                       ,
     { "ME4S     (&M)" , "myeclipseforspring"                           , "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" } ,
     { "词典     (&O)" , "goldendict"                                   , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                              ,
     { "SMPlayer (&P)" , "smplayer"                                     , "/usr/share/icons/Faenza/apps/16/mplayer.png" --[[/usr/share/applications/smplayer.desktop]]}                                      ,
     { "PDF阅读  (&R)" , "acroread"                                     , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                  ,
-    { "SmartGit (&S)" , "smartgithg"                                   , "/opt/smartgithg/bin/smartgithg-256.png" --[[/usr/share/applications/smartgithg.desktop]]}                                         ,
+    { "SmartGit (&S)" , "smartgit"                                     , "/opt/smartgit/bin/smartgit-64.png" --[[/usr/share/applications/smartgit.desktop]]}                                                ,
     { "TrCrypt  (&T)" , "truecrypt"                                    , "/usr/share/icons/Faenza/apps/16/truecrypt.png" --[[/usr/share/applications/truecrypt.desktop]]}                                   ,
-    { "Sublime  (&U)" , "subl3"                                        , "/opt/sublime_text_3/Icon/16x16/sublime-text.png" --[[/usr/share/applications/sublime_text_3.desktop]]}                            ,
+    { "Sublime  (&U)" , "subl3"                                        , "/usr/share/icons/hicolor/16x16/apps/sublime-text.png" --[[/usr/share/applications/sublime_text_3.desktop]]}                       ,
     { "为知笔记 (&W)" , "WizNote"                                      , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" --[[/usr/share/applications/wiznote.desktop]]}                                   ,
 }
 
 mymainmenu = awful.menu({ items = {
           { "Awesome (&W)" , myawesomemenu       , beautiful.awesome_icon }                                 ,
-          { "终端 (&T)"    , terminal            , '/usr/share/icons/Faenza/apps/16/Terminal.png' }         ,
-          { "gVim (&V)"    , "gvim"              , '/usr/share/icons/Faenza/apps/16/vim.png' }              ,
-          { "火狐 (&F)"    , "firefox"           , '/usr/share/icons/Faenza/apps/16/firefox-original.png' } ,
-          { "常用 (&U)"    , mymenu }            ,
-          { "应用 (&A)"    , xdgmenu(terminal) } ,
+          { "终端    (&T)" , terminal            , "/usr/share/icons/Faenza/apps/16/Terminal.png" }         ,
+          { "gVim    (&V)" , "gvim"              , "/usr/share/icons/Faenza/apps/16/vim.png" }              ,
+          { "火狐    (&F)" , "firefox"           , "/usr/share/icons/Faenza/apps/16/firefox-original.png" } ,
+          { "常用    (&U)" , mymenu }            ,
+          { "应用    (&A)" , xdgmenu(terminal) } ,
           }
 })
 
@@ -1237,7 +1237,7 @@ do
     "compton -b",
     "fcitx -d",
     -- 搜狗输入法需要运行 sogou-qimpanel
-    -- "sogou-qimpanel",
+    "sogou-qimpanel",
     -- Autostart Clipboard Manager
     "clipit",
     -- Conky (见 http://tieba.baidu.com/f?ct=335675392&tn=baiduPostBrowser&z=3244983715&sc=56424608117#56424608117 )
