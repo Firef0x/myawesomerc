@@ -205,22 +205,23 @@ local myawesomemenu = {
 }
 
 local mymenu = {
-    { "BCompare (&B)" , "bcompare"                                     , "/usr/share/pixmaps/bcompare.png" --[[/usr/share/applications/bcompare.desktop]]}                                                  ,
-    { "Chrome   (&C)" , "google-chrome-stable"                         , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
-    { "文件管理 (&D)" , "doublecmd"                                    , "/usr/share/pixmaps/doublecmd.png" --[[/usr/share/applications/doublecmd.desktop]]}                                                ,
-    { "Recoll   (&E)" , "recoll"                                       , "/usr/share/icons/Faenza/actions/32/edit-find.png" --[[/usr/share/applications/recoll-searchgui.desktop]]}                         ,
-    { "FTP浏览  (&F)" , "filezilla"                                    , "/usr/share/pixmaps/filezilla.png" --[[/usr/share/applications/filezilla.desktop]]}                                                ,
-    { "Git Cola (&G)" , "git-cola --prompt"                            , "/usr/share/git-cola/icons/git.svg" --[[/usr/share/applications/git-cola.desktop]]}                                                ,
-    { "Chr隐私  (&H)" , "google-chrome-stable --incognito"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
-    { "Leafpad  (&L)" , "leafpad"                                      , "/usr/share/icons/Faenza/apps/16/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]}                                       ,
-    { "ME4S     (&M)" , "myeclipseforspring"                           , "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" } ,
-    { "词典     (&O)" , "goldendict"                                   , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                              ,
-    { "SMPlayer (&P)" , "smplayer"                                     , "/usr/share/icons/Faenza/apps/16/mplayer.png" --[[/usr/share/applications/smplayer.desktop]]}                                      ,
-    { "PDF阅读  (&R)" , "acroread"                                     , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                  ,
-    { "SmartGit (&S)" , "smartgit"                                     , "/opt/smartgit/bin/smartgit-64.png" --[[/usr/share/applications/smartgit.desktop]]}                                                ,
-    { "TrCrypt  (&T)" , "truecrypt"                                    , "/usr/share/icons/Faenza/apps/16/truecrypt.png" --[[/usr/share/applications/truecrypt.desktop]]}                                   ,
-    { "Sublime  (&U)" , "subl3"                                        , "/usr/share/icons/hicolor/16x16/apps/sublime-text.png" --[[/usr/share/applications/sublime_text_3.desktop]]}                       ,
-    { "为知笔记 (&W)" , "WizNote"                                      , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" --[[/usr/share/applications/wiznote.desktop]]}                                   ,
+    { "BCloud   (&A)" , "bcloud-gui"                       , "/usr/share/icons/hicolor/64x64/apps/bcloud.png" --[[/usr/share/applications/bcloud.desktop]]}                                     ,
+    { "BCompare (&B)" , "bcompare"                         , "/usr/share/pixmaps/bcompare.png" --[[/usr/share/applications/bcompare.desktop]]}                                                  ,
+    { "Chrome   (&C)" , "google-chrome-stable"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
+    { "文件管理 (&D)" , "doublecmd"                        , "/usr/share/pixmaps/doublecmd.png" --[[/usr/share/applications/doublecmd.desktop]]}                                                ,
+    { "Recoll   (&E)" , "recoll"                           , "/usr/share/icons/Faenza/actions/32/edit-find.png" --[[/usr/share/applications/recoll-searchgui.desktop]]}                         ,
+    { "FTP浏览  (&F)" , "filezilla"                        , "/usr/share/pixmaps/filezilla.png" --[[/usr/share/applications/filezilla.desktop]]}                                                ,
+    { "Git Cola (&G)" , "git-cola --prompt"                , "/usr/share/git-cola/icons/git.svg" --[[/usr/share/applications/git-cola.desktop]]}                                                ,
+    { "Chr隐私  (&H)" , "google-chrome-stable --incognito" , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                           ,
+    { "Leafpad  (&L)" , "leafpad"                          , "/usr/share/icons/Faenza/apps/16/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]}                                       ,
+    { "ME4S     (&M)" , "myeclipseforspring"               , "/usr/share/myeclipse-spring/plugins/com.genuitec.myeclipse.product_11.0.1.me201309011543/images/myeclipse-title-icon-16x16.png" } ,
+    { "词典     (&O)" , "goldendict"                       , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                              ,
+    { "SMPlayer (&P)" , "smplayer"                         , "/usr/share/icons/Faenza/apps/16/mplayer.png" --[[/usr/share/applications/smplayer.desktop]]}                                      ,
+    { "PDF阅读  (&R)" , "acroread"                         , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                  ,
+    { "SmartGit (&S)" , "smartgit"                         , "/opt/smartgit/bin/smartgit-64.png" --[[/usr/share/applications/smartgit.desktop]]}                                                ,
+    { "TrCrypt  (&T)" , "truecrypt"                        , "/usr/share/icons/Faenza/apps/16/truecrypt.png" --[[/usr/share/applications/truecrypt.desktop]]}                                   ,
+    { "Sublime  (&U)" , "subl3"                            , "/usr/share/icons/hicolor/16x16/apps/sublime-text.png" --[[/usr/share/applications/sublime_text_3.desktop]]}                       ,
+    { "为知笔记 (&W)" , "WizNote"                          , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" --[[/usr/share/applications/wiznote.desktop]]}                                   ,
 }
 
 mymainmenu = awful.menu({ items = {
@@ -1127,6 +1128,29 @@ awful.rules.rules = {
     },
     properties = {
       floating = true,
+    }
+  -- Added by me
+  }, {
+    rule_any = {
+      class = {
+        'MPlayer', 'Gnome-mplayer', 'Totem', 'mpv', 'smplayer',
+      },
+    },
+    properties = {
+      tag = tags[1][10],
+    }
+  }, {
+    rule_any = {
+      class = {
+        'Firefox', 'Firefox 首选项',
+      },
+      instance = {
+        'Browser', -- 火狐的关于对话框
+        'firefox',
+      },
+    },
+    properties = {
+      tag = tags[1][1],
     }
   },
 }
