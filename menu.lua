@@ -8,20 +8,14 @@ xdgmenu = function(terminal)
         {'Google Chrome', '/usr/bin/google-chrome-stable', '/usr/share/icons/hicolor/16x16/apps/google-chrome.png' --[[/usr/share/applications/google-chrome.desktop]]},
         {'Zenmap', 'zenmap', '/usr/share/zenmap/pixmaps/zenmap.png' --[[/usr/share/applications/zenmap.desktop]]},
         {'Zenmap (as root)', '/usr/share/zenmap/su-to-zenmap.sh', '/usr/share/zenmap/pixmaps/zenmap.png' --[[/usr/share/applications/zenmap-root.desktop]]},
-        {'armitage', 'sh -c "armitage"', '/usr/share/pixmaps/btmenu.png' --[[/usr/share/applications/backtrack-framework3-armitage.desktop]]},
         {'bcloud', 'bcloud-gui', '/usr/share/icons/hicolor/64x64/apps/bcloud.png' --[[/usr/share/applications/bcloud.desktop]]},
-        {'msfcli', (terminal or "xterm") .. " -e 'sh -c \"msfcli;sudo -s\"'", '/usr/share/pixmaps/btmenu.png' --[[/usr/share/applications/backtrack-framework3-msfcli.desktop]]},
-        {'msfconsole', (terminal or "xterm") .. " -e 'sh -c \"msfconsole;sudo -s\"'", '/usr/share/pixmaps/btmenu.png' --[[/usr/share/applications/backtrack-framework3-msfconsole.desktop]]},
-        {'msfencode', (terminal or "xterm") .. " -e 'sh -c \"msfencode -h;sudo -s\"'", '/usr/share/pixmaps/btmenu.png' --[[/usr/share/applications/backtrack-framework3-msfencode.desktop]]},
-        {'msfpayload', (terminal or "xterm") .. " -e 'sh -c \"msfpayload -h;sudo -s\"'", '/usr/share/pixmaps/btmenu.png' --[[/usr/share/applications/backtrack-framework3-msfpayload.desktop]]},
-        {'msfupdate', (terminal or "xterm") .. " -e 'sh -c \"msfupdate;sudo -s\"'", '/usr/share/pixmaps/btmenu.png' --[[/usr/share/applications/backtrack-framework3-msfupdate.desktop]]},
       }
     }, {'办公 (&O)', --[[/usr/share/desktop-directories/Arch-Office.directory]] {
         {'Adobe Reader 9', 'acroread', '/usr/share/pixmaps/acroread.png' --[[/usr/share/applications/acroread.desktop]]},
         {'GoldenDict', 'goldendict', '/usr/share/pixmaps/goldendict.png' --[[/usr/share/applications/goldendict.desktop]]},
-        {'WPS 文字', '/usr/bin/wps', '/usr/share/icons/hicolor/48x48/apps/wps-office-wpsmain.png' --[[/usr/local/share/applications/wps-office-wps.desktop]]},
-        {'WPS 演示', '/usr/bin/wpp', '/usr/share/icons/hicolor/48x48/apps/wps-office-wppmain.png' --[[/usr/local/share/applications/wps-office-wpp.desktop]]},
-        {'WPS 表格', '/usr/bin/et', '/usr/share/icons/hicolor/48x48/apps/wps-office-etmain.png' --[[/usr/local/share/applications/wps-office-et.desktop]]},
+        {'WPS 文字', '/usr/bin/wps', '/usr/share/icons/hicolor/48x48/apps/wps-office-wpsmain.png' --[[/usr/share/applications/wps-office-wps.desktop]]},
+        {'WPS 演示', '/usr/bin/wpp', '/usr/share/icons/hicolor/48x48/apps/wps-office-wppmain.png' --[[/usr/share/applications/wps-office-wpp.desktop]]},
+        {'WPS 表格', '/usr/bin/et', '/usr/share/icons/hicolor/48x48/apps/wps-office-etmain.png' --[[/usr/share/applications/wps-office-et.desktop]]},
       }
     }, {'图像 (&G)', --[[/usr/share/desktop-directories/Arch-Graphics.directory]] {
         {'FontForge', 'fontforge', '/usr/share/icons/hicolor/16x16/apps/fontforge.png' --[[/usr/share/applications/fontforge.desktop]]},
@@ -37,11 +31,10 @@ xdgmenu = function(terminal)
     }, {'教育 (&E)', --[[/usr/share/desktop-directories/Arch-Education.directory]] {
         {'GoldenDict', 'goldendict', '/usr/share/pixmaps/goldendict.png' --[[/usr/share/applications/goldendict.desktop]]},
       }
-    }, {'系统工具 (&S)', --[[/usr/share/desktop-directories/Arch-System-Tools.directory]] {
+    }, {'系统工具 (&Y)', --[[/usr/share/desktop-directories/Arch-System-Tools.directory]] {
         {'Avahi Zero浏览器', '/usr/bin/avahi-discover', '/usr/share/icons/gnome/16x16/devices/network-wired.png' --[[/usr/share/applications/avahi-discover.desktop]]},
         {'BleachBit', 'bleachbit', '/usr/share/pixmaps/bleachbit.png' --[[/usr/share/applications/bleachbit.desktop]]},
         {'Fcitx', 'fcitx', '/usr/share/icons/hicolor/16x16/apps/fcitx.png' --[[/usr/share/applications/fcitx.desktop]]},
-        {'Fcitx 配置工具', 'fcitx-config-gtk3', '/usr/share/icons/hicolor/16x16/apps/fcitx.png'},
         {'Htop', (terminal or "xterm") .. " -e 'htop'", '/usr/share/pixmaps/htop.png' --[[/usr/share/applications/htop.desktop]]},
         {'SpaceFM', 'spacefm', '/usr/share/icons/hicolor/48x48/apps/spacefm.png' --[[/usr/share/applications/spacefm.desktop]]},
         {'TrueCrypt', 'truecrypt', '/usr/share/pixmaps/truecrypt.xpm' --[[/usr/share/applications/truecrypt.desktop]]},
@@ -73,6 +66,18 @@ xdgmenu = function(terminal)
         {'Sublime Text 3 Dev', 'subl3', '/usr/share/icons/hicolor/16x16/apps/sublime-text.png' --[[/usr/share/applications/sublime_text_3.desktop]]},
         {'Uninstall MyEclipse for Spring', '/usr/share/myeclipse-spring/Uninstaller/one-uninstall', '/usr/share/myeclipse-spring/configuration/com.genuitec.pulse.client.delivery.install.meta/1706109892-13916.png' --[[/usr/share/applications/Uninstall_MyEclipse_for_Spring.desktop]]},
         {'数据库浏览器', 'gda-browser-5.0', '/usr/share/pixmaps/gda-browser-5.0.png' --[[/usr/share/applications/gda-browser-5.0.desktop]]},
+      }
+    }, {'设置 (&S)', --[[/usr/share/desktop-directories/Arch-Settings.directory]] {
+        {'Adobe Flash Player', 'flash-player-properties', '/usr/share/icons/hicolor/16x16/apps/flash-player-properties.png' --[[/usr/share/applications/flash-player-properties.desktop]]},
+        {'Fcitx 配置 (GTK3)', 'fcitx-config-gtk3', '/usr/share/icons/hicolor/16x16/apps/fcitx.png'},
+        {'Fcitx 配置', 'fcitx-configtool', '/usr/share/icons/hicolor/16x16/apps/fcitx.png' --[[/usr/share/applications/fcitx-configtool.desktop]]},
+        {'Java', '/usr/lib/jvm/java-7-jdk/jre/bin/jcontrol', '/usr/share/icons/hicolor/16x16/apps/sun-jcontrol-jdk7.png' --[[/usr/share/applications/sun_java-jdk7.desktop]]},
+        {'Java Policy Settings', '/usr/lib/jvm/java-7-jdk/jre/bin/policytool', '/usr/share/icons/hicolor/16x16/apps/sun-java-jdk7.png' --[[/usr/share/applications/policytool-jdk7.desktop]]},
+        {'Qt4 Config', 'qtconfig-qt4', '/usr/share/icons/hicolor/64x64/apps/qt4logo.png' --[[/usr/share/applications/qtconfig-qt4.desktop]]},
+        {'数据库访问控制中心', 'gda-control-center-5.0', '/usr/share/icons/hicolor/16x16/apps/gda-control-center.png' --[[/usr/share/applications/gda-control-center-5.0.desktop]]},
+        {'网络连接', 'nm-connection-editor', '/usr/share/icons/gnome/16x16/categories/preferences-system-network.png' --[[/usr/share/applications/nm-connection-editor.desktop]]},
+        {'自定义外观和体验', 'lxappearance', '/usr/share/icons/gnome/16x16/apps/preferences-desktop-theme.png' --[[/usr/share/applications/lxappearance.desktop]]},
+        {'键盘和鼠标', 'lxinput', '/usr/share/icons/gnome/16x16/devices/input-keyboard.png' --[[/usr/share/applications/lxinput.desktop]]},
       }
     }, {'附件 (&A)', --[[/usr/share/desktop-directories/Arch-Accessories.directory]] {
         {'7-Zip FM', '7zFM', '/usr/share/icons/hicolor/32x32/apps/p7zip.png' --[[/usr/share/applications/7zFM.desktop]]},
