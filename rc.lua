@@ -201,7 +201,7 @@ local myawesomemenu = {
    { "注销     (&L)" , awesome.quit         , "/usr/share/icons/Faenza/actions/16/application-exit.png" }        ,
    { "挂起     (&S)" , "systemctl suspend"  , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-suspend.png" } ,
    { "重启     (&B)" , "systemctl reboot"   , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-reboot.png" }  ,
-   { "关机     (&H)" , "systemctl poweroff" , "/usr/share/icons/gnome/16x16/actions/gtk-quit.png" }              ,
+   { "关机     (&U)" , "systemctl poweroff" , "/usr/share/icons/gnome/16x16/actions/gtk-quit.png" }              ,
 }
 
 local mymenu = {
@@ -212,8 +212,7 @@ local mymenu = {
     { "词典     (&D)" , "goldendict"                       , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                                                                       ,
     { "FTP浏览  (&F)" , "filezilla"                        , "/usr/share/pixmaps/filezilla.png" --[[/usr/share/applications/filezilla.desktop]]}                                                                                         ,
     { "Git Cola (&G)" , "git-cola --prompt"                , "/usr/share/git-cola/icons/git.svg" --[[/usr/share/applications/git-cola.desktop]]}                                                                                         ,
-    { "Chr隐私  (&H)" , "google-chrome-stable --incognito" , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                                                                    ,
-    { "GIMP     (&I)" , "gimp-2.8"                         , "/usr/share/icons/Faenza/apps/16/gimp.png" --[[/usr/share/applications/gimp.desktop]]}                                                                                  ,
+    { "GIMP     (&I)" , "gimp-2.8"                         , "/usr/share/icons/Faenza/apps/16/gimp.png" --[[/usr/share/applications/gimp.desktop]]}                                                                                      ,
     { "Leafpad  (&L)" , "leafpad"                          , "/usr/share/icons/Faenza/apps/16/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]}                                                                                ,
     { "ME4S     (&M)" , "myeclipseforspring"               , "/usr/share/myeclipse-spring/configuration/com.genuitec.pulse.client.delivery.install.meta/4198914798-8884.png" --[[/usr/share/applications/MyEclipse_for_Spring.desktop]]} ,
     { "SMPlayer (&P)" , "smplayer"                         , "/usr/share/icons/Faenza/apps/16/mplayer.png" --[[/usr/share/applications/smplayer.desktop]]}                                                                               ,
@@ -222,6 +221,7 @@ local mymenu = {
     { "加密     (&T)" , "truecrypt"                        , "/usr/share/icons/Faenza/apps/16/truecrypt.png" --[[/usr/share/applications/truecrypt.desktop]]}                                                                            ,
     { "Sublime  (&U)" , "subl3"                            , "/usr/share/icons/hicolor/16x16/apps/sublime-text.png" --[[/usr/share/applications/sublime_text_3.desktop]]}                                                                ,
     { "为知笔记 (&W)" , "WizNote"                          , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" --[[/usr/share/applications/wiznote.desktop]]}                                                                            ,
+    { "Chr隐私  (&X)" , "google-chrome-stable --incognito" , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                                                                    ,
 }
 
 mymainmenu = awful.menu({ items = {
@@ -1267,6 +1267,8 @@ do
     "clipit",
     -- Conky (见 http://tieba.baidu.com/f?ct=335675392&tn=baiduPostBrowser&z=3244983715&sc=56424608117#56424608117 )
     "conky",
+    -- Autostart Redshift GTK
+    "redshift-gtk",
     }
 
     --  Autostart Network Manager Applet
