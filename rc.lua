@@ -206,7 +206,7 @@ local myawesomemenu = {
 }
 
 local mymenu = {
-    { "BCloud   (&3)" , "bcloud-gui"                       , "/usr/share/icons/hicolor/64x64/apps/bcloud.png" --[[/usr/share/applications/bcloud.desktop]]}                                                                              ,
+    { "BCloud   (&3)" , "bcloud-gui"                       , "/usr/share/icons/hicolor/16x16/apps/bcloud.png" --[[/usr/share/applications/bcloud.desktop]]}                                                                              ,
     { "PDF阅读  (&A)" , "acroread"                         , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                                                           ,
     { "BCompare (&B)" , "bcompare"                         , "/usr/share/pixmaps/bcompare.png" --[[/usr/share/applications/bcompare.desktop]]}                                                                                           ,
     { "Chrome   (&C)" , "google-chrome-stable"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                                                                    ,
@@ -218,9 +218,9 @@ local mymenu = {
     { "ME4S     (&M)" , "myeclipseforspring"               , "/usr/share/myeclipse-spring/configuration/com.genuitec.pulse.client.delivery.install.meta/4198914798-8884.png" --[[/usr/share/applications/MyEclipse_for_Spring.desktop]]} ,
     { "SMPlayer (&P)" , "smplayer"                         , "/usr/share/icons/Faenza/apps/16/mplayer.png" --[[/usr/share/applications/smplayer.desktop]]}                                                                               ,
     { "Recoll   (&R)" , "recoll"                           , "/usr/share/icons/Faenza/actions/32/edit-find.png" --[[/usr/share/applications/recoll-searchgui.desktop]]}                                                                  ,
-    { "SmartGit (&S)" , "smartgit"                         , "/opt/smartgit/bin/smartgit-64.png" --[[/usr/share/applications/smartgit.desktop]]}                                                                                         ,
+    { "SmartGit (&S)" , "smartgit"                         , "/usr/share/icons/hicolor/32x32/apps/smartgit.png" --[[/usr/share/applications/smartgit.desktop]]}                                                                          ,
     { "加密     (&T)" , "truecrypt"                        , "/usr/share/icons/Faenza/apps/16/truecrypt.png" --[[/usr/share/applications/truecrypt.desktop]]}                                                                            ,
-    { "Sublime  (&U)" , "subl3"                            , "/usr/share/icons/hicolor/16x16/apps/sublime-text.png" --[[/usr/share/applications/sublime_text_3.desktop]]}                                                                ,
+    { "Sublime  (&U)" , "sublime_text_3_imfix"             , "/usr/share/icons/hicolor/16x16/apps/sublime-text.png" --[[/usr/share/applications/sublime_text_3_imfix.desktop]]}                                                          ,
     { "为知笔记 (&W)" , "WizNote"                          , "/usr/share/icons/hicolor/16x16/apps/wiznote.png" --[[/usr/share/applications/wiznote.desktop]]}                                                                            ,
     { "Chr隐私  (&X)" , "google-chrome-stable --incognito" , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                                                                    ,
 }

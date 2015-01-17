@@ -8,7 +8,7 @@ xdgmenu = function(terminal)
         {'Google Chrome', '/usr/bin/google-chrome-stable', '/usr/share/icons/hicolor/16x16/apps/google-chrome.png' --[[/usr/share/applications/google-chrome.desktop]]},
         {'Zenmap', 'zenmap', '/usr/share/zenmap/pixmaps/zenmap.png' --[[/usr/share/applications/zenmap.desktop]]},
         {'Zenmap (as root)', '/usr/share/zenmap/su-to-zenmap.sh', '/usr/share/zenmap/pixmaps/zenmap.png' --[[/usr/share/applications/zenmap-root.desktop]]},
-        {'bcloud', 'bcloud-gui', '/usr/share/icons/hicolor/64x64/apps/bcloud.png' --[[/usr/share/applications/bcloud.desktop]]},
+        {'bcloud', 'bcloud-gui', '/usr/share/icons/hicolor/16x16/apps/bcloud.png' --[[/usr/share/applications/bcloud.desktop]]},
       }
     }, {'办公 (&O)', --[[/usr/share/desktop-directories/Arch-Office.directory]] {
         {'Adobe Reader 9', 'acroread', '/usr/share/pixmaps/acroread.png' --[[/usr/share/applications/acroread.desktop]]},
@@ -62,8 +62,9 @@ xdgmenu = function(terminal)
         {'Qt4 Designer', 'designer-qt4', '/usr/share/icons/hicolor/128x128/apps/designer-qt4.png' --[[/usr/share/applications/designer-qt4.desktop]]},
         {'Qt4 Linguist', 'linguist-qt4', '/usr/share/icons/hicolor/16x16/apps/linguist-qt4.png' --[[/usr/share/applications/linguist-qt4.desktop]]},
         {'Qt4 QDbusViewer', 'qdbusviewer-qt4', '/usr/share/icons/hicolor/32x32/apps/qdbusviewer-qt4.png' --[[/usr/share/applications/qdbusviewer-qt4.desktop]]},
-        {'SmartGit', 'smartgit', '/opt/smartgit/bin/smartgit-256.png' --[[/usr/share/applications/smartgit.desktop]]},
-        {'Sublime Text 3 Dev', 'subl3', '/usr/share/icons/hicolor/16x16/apps/sublime-text.png' --[[/usr/share/applications/sublime_text_3.desktop]]},
+        {'SmartGit', 'smartgit', '/usr/share/icons/hicolor/32x32/apps/smartgit.png' --[[/usr/share/applications/smartgit.desktop]]},
+        {'Sublime Text 3 开发版', 'sublime_text_3', '/usr/share/icons/hicolor/16x16/apps/sublime-text.png' --[[/usr/share/applications/sublime_text_3.desktop]]},
+        {'Sublime Text 3 开发版(输入法修复)', 'sublime_text_3_imfix', '/usr/share/icons/hicolor/16x16/apps/sublime-text.png' --[[/usr/share/applications/sublime_text_3_imfix.desktop]]},
         {'Uninstall MyEclipse for Spring', '/usr/share/myeclipse-spring/Uninstaller/one-uninstall', '/usr/share/myeclipse-spring/configuration/com.genuitec.pulse.client.delivery.install.meta/1706109892-13916.png' --[[/usr/share/applications/Uninstall_MyEclipse_for_Spring.desktop]]},
         {'数据库浏览器', 'gda-browser-5.0', '/usr/share/pixmaps/gda-browser-5.0.png' --[[/usr/share/applications/gda-browser-5.0.desktop]]},
       }
@@ -81,17 +82,18 @@ xdgmenu = function(terminal)
       }
     }, {'附件 (&A)', --[[/usr/share/desktop-directories/Arch-Accessories.directory]] {
         {'7-Zip FM', '7zFM', '/usr/share/icons/hicolor/32x32/apps/p7zip.png' --[[/usr/share/applications/7zFM.desktop]]},
-        {'Byobu Terminal', (terminal or "xterm") .. " -e 'env TERM=xterm-256color byobu'" --[[/usr/share/applications/byobu.desktop]]},
+        {'Byobu Terminal', (terminal or "xterm") .. " -e 'env TERM=xterm-256color byobu'", '/usr/share/icons/Faenza/apps/16/Terminal.png' --[[/usr/share/applications/byobu.desktop]]},
         {'ClipIt', 'clipit', '/usr/share/icons/hicolor/scalable/apps/clipit-trayicon.svg' --[[/usr/share/applications/clipit.desktop]]},
         {'Double Commander', 'doublecmd', '/usr/share/pixmaps/doublecmd.png' --[[/usr/share/applications/doublecmd.desktop]]},
         {'Fcitx 皮肤安装器', 'fcitx-skin-installer', '/usr/share/icons/hicolor/16x16/apps/fcitx.png' --[[/usr/share/applications/fcitx-skin-installer.desktop]]},
         {'Leafpad', 'leafpad', '/usr/share/pixmaps/leafpad.png' --[[/usr/share/applications/leafpad.desktop]]},
         {'Recoll', 'recoll', '/usr/share/pixmaps/recoll.png' --[[/usr/share/applications/recoll-searchgui.desktop]]},
+        {'Redshift', 'redshift-gtk', '/usr/share/icons/hicolor/scalable/apps/redshift.svg' --[[/usr/share/applications/redshift-gtk.desktop]]},
         {'SpaceFM File Search', 'spacefm --find-files', '/usr/share/icons/hicolor/48x48/apps/spacefm-find.png' --[[/usr/share/applications/spacefm-find.desktop]]},
         {'Synergy', 'synergy', '/usr/share/pixmaps/synergy.png' --[[/usr/share/applications/synergy.desktop]]},
         {'Vi IMproved', 'gvim -f', '/usr/share/pixmaps/gvim.png' --[[/usr/share/applications/gvim.desktop]]},
         {'aafm', 'aafm', '/usr/share/icons/hicolor/64x64/apps/aafm.png' --[[/usr/share/applications/aafm.desktop]]},
-        {'compton', 'compton' --[[/usr/share/applications/compton.desktop]]},
+        {'compton', 'compton', '/usr/share/icons/Faenza/apps/16/preferences-desktop-theme.png' --[[/usr/share/applications/compton.desktop]]},
         {'为知笔记', 'WizNote', '/usr/share/icons/hicolor/16x16/apps/wiznote.png' --[[/usr/share/applications/wiznote.desktop]]},
         {'关于 Xfce', 'xfce4-about', '/usr/share/icons/gnome/16x16/actions/help-about.png' --[[/usr/share/applications/xfce4-about.desktop]]},
         {'密码和密钥', '/usr/bin/seahorse', '/usr/share/icons/hicolor/16x16/apps/seahorse.png' --[[/usr/share/applications/seahorse.desktop]]},
