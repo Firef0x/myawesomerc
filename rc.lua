@@ -11,8 +11,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 -- for fcitx-chttrans
-table.insert(naughty.config.icon_dirs, '/usr/share/icons/hicolor/48x48/apps/')
-table.insert(naughty.config.icon_dirs, '/usr/share/icons/hicolor/48x48/status/')
+table.insert(naughty.config.icon_dirs, '/usr/share/icons/Faenza/apps/48/')
+table.insert(naughty.config.icon_dirs, '/usr/share/icons/Faenza/status/48/')
 
 local myutil = require("myutil")
 local fixwidthtextbox = require("fixwidthtextbox")
@@ -212,7 +212,7 @@ local mymenu = {
     { "Chrome   (&C)" , "google-chrome-stable"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                                                                    ,
     { "词典     (&D)" , "goldendict"                       , "/usr/share/pixmaps/goldendict.png" --[[/usr/share/applications/goldendict.desktop]]}                                                                                       ,
     { "FTP浏览  (&F)" , "filezilla"                        , "/usr/share/pixmaps/filezilla.png" --[[/usr/share/applications/filezilla.desktop]]}                                                                                         ,
-    { "Git Cola (&G)" , "git-cola --prompt"                , "/usr/share/git-cola/icons/git.svg" --[[/usr/share/applications/git-cola.desktop]]}                                                                                         ,
+    { "Git Cola (&G)" , "git-cola --prompt"                , "/usr/share/icons/hicolor/scalable/apps/git-cola.svg" --[[/usr/share/applications/git-cola.desktop]]}                                                                       ,
     { "GIMP     (&I)" , "gimp-2.8"                         , "/usr/share/icons/Faenza/apps/16/gimp.png" --[[/usr/share/applications/gimp.desktop]]}                                                                                      ,
     { "Leafpad  (&L)" , "leafpad"                          , "/usr/share/icons/Faenza/apps/16/leafpad.png" --[[/usr/share/applications/leafpad.desktop]]}                                                                                ,
     { "ME4S     (&M)" , "myeclipseforspring"               , "/usr/share/myeclipse-spring/configuration/com.genuitec.pulse.client.delivery.install.meta/4198914798-8884.png" --[[/usr/share/applications/MyEclipse_for_Spring.desktop]]} ,
