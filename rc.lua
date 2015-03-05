@@ -897,28 +897,28 @@ globalkeys = awful.util.table.join(
             end
         end),
 
-    -- sdcv
-    -- awful.key({ modkey            }, "d",
-    --     function ()
-    --         local new_word = selection()
+    -- ydcv
+    awful.key({ modkey            }, "d",
+        function ()
+            local new_word = selection()
 
-    --         if _dict_notify ~= nil then
-    --             naughty.destroy(_dict_notify)
-    --             _dict_notify = nil
-    --             if _old_word == new_word then
-    --                 return
-    --             end
-    --         end
-    --         _old_word = new_word
+            if _dict_notify ~= nil then
+                naughty.destroy(_dict_notify)
+                _dict_notify = nil
+                if _old_word == new_word then
+                    return
+                end
+            end
+            _old_word = new_word
 
-    --         local fc = ""
-    --         local f  = io.popen("sdcv -n --utf8-output -u 'stardict1.3英汉辞典' '"..new_word.."'")
-    --         for line in f:lines() do
-    --             fc = fc .. line .. '\n'
-    --         end
-    --         f:close()
-    --         _dict_notify = naughty.notify({ text = fc, timeout = 5, width = 320 })
-    --     end),
+            local fc = ""
+            local f  = io.popen("ydcv --color never -f '"..new_word.."'")
+            for line in f:lines() do
+                fc = fc .. line .. '\n'
+            end
+            f:close()
+            _dict_notify = naughty.notify({ text = fc, timeout = 30, width = 320 })
+        end),
 
     -- Volume
     awful.key({ }, 'XF86AudioRaiseVolume', function () volumectl("up", volumewidget) end),
@@ -1046,7 +1046,10 @@ awful.rules.rules = {
     rule = { class = "Bcompare", role = "BcDialog" }, -- Beyond Compare
     properties = { floating = true }
   }, {
-    rule = { class = "SmartGit/Hg", name = "Preferences" }, -- SmartGit/Hg Preferences window
+    rule = { class = "SmartGit", name = "Preferences" }, -- SmartGit Preferences window
+    properties = { floating = true }
+  }, {
+    rule = { class = "SmartGit", name = "Repository Settings" }, -- SmartGit Repository Settings window
     properties = { floating = true }
   }, {
     rule_any = {
