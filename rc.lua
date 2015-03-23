@@ -59,8 +59,8 @@ beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 terminal = "xfce4-terminal"
 editor = "leafpad"
 editor_cmd = editor
-browser = firefox
-file_manager = doublecmd
+browser = "firefox"
+file_manager = "doublecmd"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -170,7 +170,7 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags_name = { "1火狐", "2BC", "3文档", "4FTP", "5文件", "6终端", "7代码", "8Git", "9", "0浮动" }
+tags_name = { "1火狐", "2BC", "3文档", "4Git", "5文件", "6终端", "7代码", "8", "9", "0浮动" }
 tags_layout = {
     awful.layout.suit.tile,
     awful.layout.suit.tile,
@@ -198,11 +198,11 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 local myawesomemenu = {
-   { "重新加载 (&R)" , awesome.restart      , "/usr/share/icons/Faenza/actions/32/view-refresh.png" }            ,
-   { "注销     (&L)" , awesome.quit         , "/usr/share/icons/Faenza/actions/16/application-exit.png" }        ,
-   { "挂起     (&S)" , "systemctl suspend"  , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-suspend.png" } ,
-   { "重启     (&B)" , "systemctl reboot"   , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-reboot.png" }  ,
-   { "关机     (&U)" , "systemctl poweroff" , "/usr/share/icons/gnome/16x16/actions/gtk-quit.png" }              ,
+   { "刷新 (&R)" , awesome.restart                                                                                   , "/usr/share/icons/Faenza/actions/32/view-refresh.png" }            ,
+   { "注销 (&L)" , awesome.quit                                                                                      , "/usr/share/icons/Faenza/actions/16/application-exit.png" }        ,
+   { "挂起 (&S)" , "systemctl suspend"                                                                               , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-suspend.png" } ,
+   { "重启 (&B)" , "zenity --question --title '重启' --text '你确定重启吗？' --default-cancel && systemctl reboot"   , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-reboot.png" }  ,
+   { "关机 (&U)" , "zenity --question --title '关机' --text '你确定关机吗？' --default-cancel && systemctl poweroff" , "/usr/share/icons/gnome/16x16/actions/gtk-quit.png" }              ,
 }
 
 local mymenu = {
@@ -226,13 +226,13 @@ local mymenu = {
 }
 
 mymainmenu = awful.menu({ items = {
-          { "Awesome  (&W)" , myawesomemenu       , beautiful.awesome_icon }                                    ,
-          { "文件管理 (&D)" , "doublecmd"         , "/usr/share/icons/Faenza/apps/16/system-file-manager.png" } ,
-          { "终端     (&T)" , terminal            , "/usr/share/icons/Faenza/apps/16/Terminal.png" }            ,
-          { "gVim     (&V)" , "gvim"              , "/usr/share/icons/Faenza/apps/16/vim.png" }                 ,
-          { "火狐     (&F)" , "firefox"           , "/usr/share/icons/Faenza/apps/16/firefox-original.png" }    ,
-          { "常用     (&U)" , mymenu }            ,
-          { "应用     (&A)" , xdgmenu(terminal) } ,
+          { "系统 (&W)" , myawesomemenu       , beautiful.awesome_icon }                                    ,
+          { "文件 (&D)" , file_manager        , "/usr/share/icons/Faenza/apps/16/system-file-manager.png" } ,
+          { "终端 (&T)" , terminal            , "/usr/share/icons/Faenza/apps/16/Terminal.png" }            ,
+          { "gVim (&V)" , "gvim"              , "/usr/share/icons/Faenza/apps/16/vim.png" }                 ,
+          { "火狐 (&F)" , "firefox"           , "/usr/share/icons/Faenza/apps/16/firefox-original.png" }    ,
+          { "常用 (&U)" , mymenu }            ,
+          { "应用 (&A)" , xdgmenu(terminal) } ,
           }
 })
 
@@ -325,7 +325,7 @@ end
 
 -- {{{ [Disabled]CPU Temperature
 function update_cputemp()
-    local pipe = io.popen('sensors')
+    local pipe = io.popen('sensors coretemp-isa-0000')
     if not pipe then
         cputempwidget:set_markup('CPU <span color="red">ERR</span>℃')
         return
@@ -511,14 +511,8 @@ function volumectl (mode, widget)
         f = io.popen("pamixer --get-mute")
         local muted = f:read("*all")
         f:close()
-        if muted == "false" then
-            if volume >= 60 then
-                volume = '♫' .. volume .. "%"
-            elseif volume >= 30 then
-                volume = '♪' .. volume .. "%"
-            else
-                volume = '♩' .. volume .. "%"
-            end
+        if muted:gsub('%s+', '') == "false" then
+            volume = '♫' .. volume .. "%"
         else
             volume = '♫' .. volume .. "<span color='red'>M</span>"
         end
@@ -545,7 +539,7 @@ volume_clock:connect_signal("timeout", function () volumectl("update", volumewid
 volume_clock:start()
 
 volumewidget = fixwidthtextbox('(volume)')
-volumewidget.width = 55
+volumewidget.width = 60
 volumewidget:set_align('right')
 volumewidget:buttons(awful.util.table.join(
     awful.button({ }, 4, function () volumectl("up", volumewidget) end),
@@ -874,7 +868,6 @@ globalkeys = awful.util.table.join(
 
     -- My programs
     -- awful.key({ modkey,           }, "g", function () awful.util.spawn("gvim") end),
-    -- awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("subl3") end),
     awful.key({ "Control", "Mod1", "Shift" }, "x", function () awful.util.spawn("xkill") end),
     awful.key({ "Control", "Mod1" }, "l", function () awful.util.spawn("leave") end),
     awful.key({ modkey,           }, "t", function () awful.util.spawn(terminal) end),
@@ -992,8 +985,12 @@ root.keys(globalkeys)
 -- {{{ Rules
 function myfocus_filter(c)
   if awful.client.focus.filter(c) then
+    -- TM.exe completion pop-up windows
+    if c.instance == 'TM.exe' and c.above and c.skip_taskbar
+        and c.type == 'normal' and c.class == 'TM.exe' then
+        return nil
     -- This works with tooltips and some popup-menus
-    if c.class == 'Wine' and c.above == true then
+    elseif c.class == 'Wine' and c.above == true then
       return nil
     elseif c.class == 'Wine'
       and c.type == 'dialog'
@@ -1035,7 +1032,7 @@ awful.rules.rules = {
     rule = { class = "Firefox", instance = "firefox" },
     properties = { floating = true }
   }, {
-    -- popup from FireGesture with mouse wheel
+    -- popup from FireGestures with mouse wheel
     rule = {
       class = "Firefox",
       skip_taskbar = true,
@@ -1208,12 +1205,12 @@ client.connect_signal("manage", function (c, startup)
         c.minimized = true
         -- naughty.notify({title="FlashGot", text="OK"})
     elseif c.instance == 'TM.exe' then -- TM2013
-        map_client_key(c, tm_keys)
-        if c.name and (c.name:match('^腾讯') or c.name == 'QQ版本升级') and c.above then
+        if c.name and (c.name:match('^腾讯') or c.name:match('^QQ.+频道$') or c.name == 'QQ版本升级' or c.name == 'QQ浏览器') and c.above then
             qqad_blocked = qqad_blocked + 1
             naughty.notify{title="QQ广告屏蔽 " .. qqad_blocked, text="检测到一个符合条件的窗口，标题为".. c.name .."。"}
             c:kill()
         end
+        map_client_key(c, tm_keys)
     elseif c.class == 'Evince' then
         map_client_key(c, evince_keys)
     elseif c.instance == 'QQ.exe' then
