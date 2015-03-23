@@ -323,7 +323,7 @@ end
 -- mem_clock:start()
 -- }}}
 
--- {{{ CPU Temperature
+-- {{{ [Disabled]CPU Temperature
 function update_cputemp()
     local pipe = io.popen('sensors')
     if not pipe then
@@ -347,12 +347,12 @@ function update_cputemp()
         cputempwidget:set_markup('CPU <span color="#7cfc00">'..temp..'</span>℃')
     end
 end
-cputempwidget = fixwidthtextbox('CPU ??℃')
-cputempwidget.width = 65
-update_cputemp()
-cputemp_clock = timer({ timeout = 5 })
-cputemp_clock:connect_signal("timeout", update_cputemp)
-cputemp_clock:start()
+-- cputempwidget = fixwidthtextbox('CPU ??℃')
+-- cputempwidget.width = 65
+-- update_cputemp()
+-- cputemp_clock = timer({ timeout = 5 })
+-- cputemp_clock:connect_signal("timeout", update_cputemp)
+-- cputemp_clock:start()
 -- }}}
 
 -- --{{{ [Disabled]battery indicator, using smapi
@@ -638,7 +638,8 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     -- 因为屏幕不大，暂时弃用 lilydjwg 的内存小部件
     -- right_layout:add(memwidget)
-    right_layout:add(cputempwidget)
+    -- 因为屏幕不大，暂时弃用 lilydjwg 的 CPU 温度小部件
+    -- right_layout:add(cputempwidget)
     right_layout:add(batwidget)
     -- 因为屏幕不大，暂时弃用 lilydjwg 的网速小部件
     -- right_layout:add(netwidget)
