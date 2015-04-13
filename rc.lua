@@ -198,11 +198,11 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 local myawesomemenu = {
-   { "刷新 (&R)" , awesome.restart                                                                                   , "/usr/share/icons/Faenza/actions/32/view-refresh.png" }            ,
-   { "注销 (&L)" , awesome.quit                                                                                      , "/usr/share/icons/Faenza/actions/16/application-exit.png" }        ,
-   { "挂起 (&S)" , "systemctl suspend"                                                                               , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-suspend.png" } ,
-   { "重启 (&B)" , "zenity --question --title '重启' --text '你确定重启吗？' --default-cancel && systemctl reboot"   , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-reboot.png" }  ,
-   { "关机 (&U)" , "zenity --question --title '关机' --text '你确定关机吗？' --default-cancel && systemctl poweroff" , "/usr/share/icons/gnome/16x16/actions/gtk-quit.png" }              ,
+   { "刷新 (&R)" , awesome.restart      , "/usr/share/icons/Faenza/actions/32/view-refresh.png" }            ,
+   { "注销 (&L)" , awesome.quit         , "/usr/share/icons/Faenza/actions/16/application-exit.png" }        ,
+   { "挂起 (&S)" , "systemctl suspend"  , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-suspend.png" } ,
+   { "重启 (&B)" , "systemctl reboot"   , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-reboot.png" }  ,
+   { "关机 (&U)" , "systemctl poweroff" , "/usr/share/icons/gnome/16x16/actions/gtk-quit.png" }              ,
 }
 
 local mymenu = {
@@ -1262,8 +1262,6 @@ end
 do
     local cmds =
     {
-    -- Autostart Network Manager Applet
-    "nm-applet",
     -- Autostart Input Method
     -- 消除左上角的黑方块，要运行 compton
     "compton -b",
@@ -1272,10 +1270,14 @@ do
     "sogou-qimpanel",
     -- Autostart Clipboard Manager
     "clipit",
-    -- Conky (见 http://tieba.baidu.com/f?ct=335675392&tn=baiduPostBrowser&z=3244983715&sc=56424608117#56424608117 )
+    -- Conky (见 http://tieba.baidu.com/f?ct=335675392&z=3244983715&sc=56424608117#56424608117 )
     "conky",
+    -- Autostart Network Manager Applet
+    "nm-applet",
     -- Autostart Redshift GTK
     "redshift-gtk",
+    -- 自启动 Xfce4 电源管理器
+    "xfce4-power-manager",
     }
 
     --  Autostart Network Manager Applet
