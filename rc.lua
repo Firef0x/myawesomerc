@@ -499,36 +499,37 @@ vicious.register(batwidget,
 -- {{{ Volume Controller
 function volumectl (mode, widget)
     if mode == "update" then
-        local f = io.popen("pamixer --get-volume")
-        local volume = f:read("*all")
+        local f = io.popen("amixer -c 0 sget Master playback")
+        local status = f:read("*all")
         f:close()
-        if not tonumber(volume) then
-            widget:set_markup("<span color='red'>ERR</span>")
-            do return end
-        end
-        volume = string.format("% 3d", volume)
 
-        f = io.popen("pamixer --get-mute")
-        local muted = f:read("*all")
-        f:close()
-        if muted:gsub('%s+', '') == "false" then
-            volume = '♫' .. volume .. "%"
+        local volume = tonumber(string.match(status, "(%d?%d?%d)%%"))
+
+        status = string.match(status, "%[(o[^%]]*)%]")
+        if string.find(status, "on", 1, true) then
+            if volume >= 60 then
+                volume = '♫' .. volume .. "%"
+            elseif volume >= 30 then
+                volume = '♪' .. volume .. "%"
+            else
+                volume = '♩' .. volume .. "%"
+            end
         else
             volume = '♫' .. volume .. "<span color='red'>M</span>"
         end
         widget:set_markup(volume)
     elseif mode == "up" then
-        local f = io.popen("pamixer --allow-boost --increase 5")
+        local f = io.popen("amixer -c 0 sset Master playback 10%+")
         f:read("*all")
         f:close()
         volumectl("update", widget)
     elseif mode == "down" then
-        local f = io.popen("pamixer --allow-boost --decrease 5")
+        local f = io.popen("amixer -c 0 sset Master playback 10%-")
         f:read("*all")
         f:close()
         volumectl("update", widget)
     else
-        local f = io.popen("pamixer --toggle-mute")
+        local f = io.popen("amixer -c 0 sset Master playback toggle")
         f:read("*all")
         f:close()
         volumectl("update", widget)
@@ -544,7 +545,7 @@ volumewidget:set_align('right')
 volumewidget:buttons(awful.util.table.join(
     awful.button({ }, 4, function () volumectl("up", volumewidget) end),
     awful.button({ }, 5, function () volumectl("down", volumewidget) end),
-    awful.button({ }, 3, function () awful.util.spawn("pavucontrol") end),
+    awful.button({ }, 3, function () awful.util.spawn("qasmixer") end),
     awful.button({ }, 1, function () volumectl("mute", volumewidget) end)
 ))
 volumectl("update", volumewidget)
