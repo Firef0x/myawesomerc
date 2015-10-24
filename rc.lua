@@ -198,15 +198,16 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 local myawesomemenu = {
-   { "刷新 (&R)" , awesome.restart      , "/usr/share/icons/Faenza/actions/32/view-refresh.png" }            ,
-   { "注销 (&L)" , awesome.quit         , "/usr/share/icons/Faenza/actions/16/application-exit.png" }        ,
-   { "挂起 (&S)" , "systemctl suspend"  , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-suspend.png" } ,
-   { "重启 (&B)" , "systemctl reboot"   , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-reboot.png" }  ,
-   { "关机 (&U)" , "systemctl poweroff" , "/usr/share/icons/gnome/16x16/actions/gtk-quit.png" }              ,
+   { "刷新 (&R)" , awesome.restart      , "/usr/share/icons/Faenza-Dark/places/22/start-here-archlinux.png" } ,
+   { "注销 (&L)" , awesome.quit         , "/usr/share/icons/Faenza/actions/16/application-exit.png" }         ,
+   { "挂起 (&S)" , "systemctl suspend"  , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-suspend.png" }  ,
+   { "重启 (&B)" , "systemctl reboot"   , "/usr/share/icons/Faenza-Dark/apps/16/gnome-session-reboot.png" }   ,
+   { "关机 (&U)" , "systemctl poweroff" , "/usr/share/icons/Faenza-Dark/actions/16/system-shutdown.png" }     ,
 }
 
 local mymenu = {
     { "BCloud   (&3)" , "bcloud-gui"                       , "/usr/share/icons/hicolor/16x16/apps/bcloud.png" --[[/usr/share/applications/bcloud.desktop]]}                                                                              ,
+    { "SpaceFM  (&5)" , "spacefm"                          , "/usr/share/icons/hicolor/48x48/apps/spacefm.png" --[[/usr/share/applications/spacefm.desktop]]}                                                                            ,
     { "PDF阅读  (&A)" , "acroread"                         , "/usr/share/pixmaps/acroread.png" --[[/usr/share/applications/acroread.desktop]]}                                                                                           ,
     { "BCompare (&B)" , "bcompare"                         , "/usr/share/pixmaps/bcompare.png" --[[/usr/share/applications/bcompare.desktop]]}                                                                                           ,
     { "Chrome   (&C)" , "google-chrome-stable"             , "/usr/share/icons/Faenza/apps/16/google-chrome.png" --[[/usr/share/applications/google-chrome.desktop]]}                                                                    ,
