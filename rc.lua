@@ -406,7 +406,7 @@ end
 -- bat_clock:start()
 -- -- }}}
 
---{{{ battery indicator, using vicious.widgets.bat
+--{{{ [Disabled]battery indicator, using vicious.widgets.bat
 --  from http://git.sysphere.org/vicious/tree/README
 --  vicious.register(widget, wtype, format, interval, warg)
 --
@@ -636,7 +636,8 @@ for s = 1, screen.count() do
     -- right_layout:add(memwidget)
     -- 因为屏幕不大，暂时弃用 lilydjwg 的 CPU 温度小部件
     -- right_layout:add(cputempwidget)
-    right_layout:add(batwidget)
+    -- 因为转移到虚拟机中，弃用电量小部件
+    -- right_layout:add(batwidget)
     -- 因为屏幕不大，暂时弃用 lilydjwg 的网速小部件
     -- right_layout:add(netwidget)
     right_layout:add(volumewidget)
@@ -1266,7 +1267,7 @@ do
     {
     -- Autostart Input Method
     -- 消除左上角的黑方块，要运行 compton
-    "compton -b",
+    -- "compton -b",
     "fcitx -d",
     -- 搜狗输入法需要运行 sogou-qimpanel
     "sogou-qimpanel",
